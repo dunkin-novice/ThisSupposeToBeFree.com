@@ -123,24 +123,35 @@ main {
     margin-top: 0;
 }
 
+.tool-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    margin-top: 20px;
+}
+
 .tool-card {
     background-color: #fff;
     border: 2px solid var(--border-color);
     border-radius: 6px;
     padding: 20px;
-    margin-top: 20px;
     text-align: left;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
+
+.tool-card-link:hover .tool-card {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
 .tool-card h3 {
     margin-top: 0;
 }
 
-.tool-link {
-    display: inline-block;
-    margin-top: 10px;
-    font-weight: bold;
-    color: var(--text-color);
+.info-box > .tool-card {
+     margin-top: 20px;
 }
+
 
 .affiliate-notice {
     background-color: #fff9e3;
@@ -288,6 +299,8 @@ main {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 4px 4px 0 0 rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
 }
 .preview-card img {
     width: 100%;
@@ -314,6 +327,7 @@ main {
 .file-info {
     padding: 10px;
     font-size: 0.9rem;
+    flex-grow: 1;
 }
 .filename {
     font-weight: 600;
@@ -326,10 +340,42 @@ main {
     color: #555;
     margin: 4px 0 0 0;
 }
+
+.card-footer {
+    padding: 10px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.single-convert-btn, .single-download-link {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.single-download-link {
+    display: block;
+    text-align: center;
+    background-color: var(--success-color);
+    color: #fff;
+    box-shadow: 2px 2px 0 0 var(--border-color);
+}
+.single-download-link:hover {
+     transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 0 var(--border-color);
+}
+
+
 .card-status {
-    padding: 0 10px 10px 10px;
     font-weight: bold;
     font-size: 0.9rem;
+    text-align: center;
+}
+.card-status.success {
+    color: var(--success-color);
+}
+.card-status.error {
+    color: var(--danger-color);
 }
 
 #results-area {
