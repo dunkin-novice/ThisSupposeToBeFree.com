@@ -4,93 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unlimited Image Converter | ThisSupposeToBeFree.com</title>
-    <meta name="description" content="A free, unlimited, and private tool to convert JPG, PNG, GIF, and SVG images to WebP, PNG, or JPG right in your browser.">
-    
+    <meta name="description" content="A free, unlimited, and private tool to convert JPG, PNG, GIF, and SVG images to WebP, JPEG, or PNG right in your browser. No uploads, no limits.">
+
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2823470980745945"
      crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="/style.css"> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-
-    <div id="drag-overlay" class="hidden">
-        <div class="drag-overlay-content">
-            <h2>Drop images anywhere to upload</h2>
-        </div>
-    </div>
-
     <nav class="navbar">
         <div class="nav-container">
             <a href="/" class="nav-logo">ThisSupposeToBeFree<span>.com</span></a>
             <div class="nav-links">
                 <a href="/">Home</a>
                 <a href="/convertunlimited.html">Tools</a>
+                <a href="/about.html">About Me</a>
                 <a href="mailto:hello@thissupposetobefree.com?subject=This%20Suppose%20to%20Be%20Free%20Idea" class="nav-button-submit">Submit Request</a>
-                <a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener" class="nav-button-coffee">Buy Me a Coffee</a>
             </div>
         </div>
     </nav>
     
-    <div class="container">
-        <main>
-            <div id="converter-ui">
-                <div id="upload-box">
-                    <input type="file" id="image-input" accept="image/*" multiple class="hidden">
-                    <label for="image-input" class="upload-label">
-                        Drag & drop your images here, or click to select files
-                    </label>
-                </div>
+    <main class="container">
+        <div id="converter-ui">
+            <div id="upload-box">
+                <input type="file" id="image-input" hidden multiple accept="image/jpeg,image/png,image/gif,image/svg+xml">
+                <span class="upload-label">Drag & drop your images here, or click to select files</span>
+            </div>
 
-                <div id="controls" class="hidden">
-                    <div class="controls-wrapper">
-                        <div class="control-group">
-                            <label for="format-select">Convert to:</label>
-                            <select id="format-select" class="dropdown">
-                                <option value="webp" selected>WEBP</option>
-                                <option value="jpg">JPG</option>
-                                <option value="png">PNG</option>
-                            </select>
-                        </div>
-                        <div class="control-group" id="quality-control-group">
-                            <label for="quality-select">Quality:</label>
-                            <select id="quality-select" class="dropdown">
-                                <option value="0.5">Best Compression</option>
-                                <option value="0.75" selected>Recommended</option>
-                                <option value="0.92">Less Compression</option>
-                                <option value="1">Keep Original</option>
-                            </select>
-                        </div>
+            <div id="controls" class="hidden">
+                <div class="controls-wrapper">
+                    <div class="control-group">
+                        <label for="format-select">Convert to:</label>
+                        <select id="format-select" class="dropdown">
+                            <option value="webp" selected>WebP</option>
+                            <option value="jpg">JPG</option>
+                            <option value="png">PNG</option>
+                        </select>
                     </div>
-                    <button id="convert-all-btn" class="button">Convert All to WEBP</button>
+                    <div id="quality-control-group" class="control-group">
+                        <label for="quality-select">Quality:</label>
+                        <select id="quality-select" class="dropdown">
+                            <option value="0.95">Keep Original</option>
+                            <option value="0.85">Less Compression</option>
+                            <option value="0.75" selected>Recommended</option>
+                            <option value="0.5">Best Compression</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <button id="convert-all-btn" class="button">Convert All</button>
                     <button id="clear-all-btn" class="clear-button">Clear All</button>
                 </div>
-                
-                <div id="preview-grid"></div>
-
-                <div id="results-area" class="hidden">
-                    <h3>Conversion Results</h3>
-                     <button id="download-all-btn" class="button download-all">📦 Download All as ZIP</button>
-                     <div id="results-list"></div>
-                </div>
-
-                 <p id="status-message"></p>
             </div>
-             <div class="ads-placeholder">
+
+            <div id="preview-grid"></div>
+
+            <div id="results-area" class="hidden">
+                <h3>Batch Conversion Results</h3>
+                <div id="results-list"></div>
+                <button id="download-all-btn" class="button download-all hidden">📦 Download All as ZIP</button>
+            </div>
+             
+             <p id="status-message"></p>
+
+            <div class="ads-placeholder">
                 Google AdSense Banner (e.g., 728x90)
             </div>
-        </main>
+        </div>
+    </main>
 
-        <footer>
-            Built with caffeine & mild rage &copy; 2025 &middot; 
-            <a href="mailto:hello@thissupposetobefree.com">Contact</a> &middot;
-            <a href="https://github.com/dunkin-novice/ThisSupposeToBeFree.com" target="_blank" rel="noopener">GitHub</a> &middot;
-            <a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener">Buy Me a Coffee</a>
-        </footer>
+     <footer>
+        Inspired by John Sorrentino (Favicon.io) &middot; Built with caffeine & mild rage &copy; 2025 &middot; 
+        <a href="mailto:hello@thissupposetobefree.com">Contact</a> &middot;
+        <a href="https://github.com/dunkin-novice/ThisSupposeToBeFree.com" target="_blank" rel="noopener">GitHub</a> &middot;
+        <a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener">Buy Me a Coffee</a>
+    </footer>
+
+    <div id="drag-overlay" class="hidden">
+       <div class="drag-overlay-content">
+            <h2>Drop files anywhere to upload</h2>
+       </div>
     </div>
 
-    <script src="/converter.js" defer></script>
+    <!-- JSZip Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Converter Logic -->
+    <script src="/converter.js"></script>
 </body>
 </html>
 
