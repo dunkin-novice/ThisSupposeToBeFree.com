@@ -56,7 +56,6 @@ main {
     flex-grow: 1;
 }
 
-/* New Mission Wall */
 #mission-wall {
     background-color: var(--bg-box);
     border: 2px solid var(--border-color);
@@ -174,6 +173,56 @@ main {
     font-size: 0.9rem;
 }
 
+/* Styles for new info boxes */
+.info-box {
+    background-color: var(--bg-box);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    margin: 40px 0;
+    text-align: center;
+}
+
+.info-box h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.info-box p {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.tool-link a {
+    display: block;
+    background-color: #f8f8f8;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    padding: 15px;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all 0.2s;
+}
+
+.tool-link a:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+.fame-entry {
+    line-height: 1.6;
+}
+.fame-entry strong {
+    display: block;
+    font-size: 1.2rem;
+}
+.fame-entry span {
+    font-size: 1rem;
+    color: #444;
+}
+
+
 #results-section {
     margin-top: 40px;
     text-align: left;
@@ -259,8 +308,10 @@ footer a:hover {
 
 @media (max-width: 600px) {
     header h1 a { font-size: 1.8rem; }
+    #mission-wall h2, .info-box h3 { font-size: 1.3rem; }
     .result-item { flex-direction: column; align-items: flex-start; }
     .download-btn { margin-left: 0; margin-top: 15px; width: 100%; }
     #results-header { flex-direction: column; align-items: flex-start; }
     #download-all-btn { width: 100%; margin-top: 10px; }
 }
+
