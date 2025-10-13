@@ -57,7 +57,6 @@ function handleFiles(files) {
         if (!file.type.startsWith('image/')) return;
         createImagePreview(file);
     });
-    updateUIState();
 }
 
 function createImagePreview(file) {
@@ -85,6 +84,9 @@ function createImagePreview(file) {
             previewCard.remove();
             updateUIState();
         });
+
+        // This is the fix: Update the UI after each file has been processed by the FileReader
+        updateUIState();
     };
     reader.readAsDataURL(file);
 }
@@ -92,7 +94,7 @@ function createImagePreview(file) {
 function updateUIState() {
     const hasFiles = filesToProcess.length > 0;
     controls.classList.toggle('hidden', !hasFiles);
-    resultsArea.classList.toggle('hidden', true); // Always hide results initially
+    resultsArea.classList.add('hidden'); // Always hide results when the state changes
     uploadBox.style.borderStyle = hasFiles ? 'solid' : 'dashed';
 
     if (!hasFiles) {
@@ -264,7 +266,7 @@ function downloadBlob(blob, filename) {
     a.href = url;
     a.download = filename;
     document.body.appendChild(a);
-a.click();
+    a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
