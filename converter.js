@@ -1,9 +1,11 @@
+// Get references to our HTML elements
 const imageInput = document.getElementById('image-input');
 const dragOverlay = document.getElementById('drag-overlay');
 const uploadBox = document.getElementById('upload-box');
 const controls = document.getElementById('controls');
 const formatSelect = document.getElementById('format-select');
 const qualitySelect = document.getElementById('quality-select');
+const qualityControlGroup = document.getElementById('quality-control-group');
 const convertAllBtn = document.getElementById('convert-all-btn');
 const clearAllBtn = document.getElementById('clear-all-btn');
 const previewGrid = document.getElementById('preview-grid');
@@ -13,110 +15,116 @@ const downloadAllBtn = document.getElementById('download-all-btn');
 const statusMessage = document.getElementById('status-message');
 
 let filesToProcess = [];
+let dragCounter = 0;
 
 // --- Drag and Drop Logic ---
 window.addEventListener('dragenter', (e) => {
     e.preventDefault();
-    dragOverlay.classList.remove('hidden');
+    // Check if files are being dragged
+    if (e.dataTransfer.types && Array.from(e.dataTransfer.types).includes('Files')) {
+        dragCounter++;
+        dragOverlay.classList.remove('hidden');
+    }
 });
+
 dragOverlay.addEventListener('dragleave', (e) => {
     e.preventDefault();
-    dragOverlay.classList.add('hidden');
+    dragCounter--;
+    if (dragCounter === 0) {
+        dragOverlay.classList.add('hidden');
+    }
 });
+
 dragOverlay.addEventListener('dragover', (e) => e.preventDefault());
+
 dragOverlay.addEventListener('drop', (e) => {
     e.preventDefault();
+    dragCounter = 0;
     dragOverlay.classList.add('hidden');
     handleFiles(e.dataTransfer.files);
 });
 
+// --- Event Listeners ---
 uploadBox.addEventListener('click', () => imageInput.click());
 imageInput.addEventListener('change', () => handleFiles(imageInput.files));
+clearAllBtn.addEventListener('click', handleClearAll);
+convertAllBtn.addEventListener('click', handleConvertAll);
+formatSelect.addEventListener('change', updateControlOptions);
 
-// --- File Handling and UI ---
+// --- Core Functions ---
 function handleFiles(files) {
     Array.from(files).forEach(file => {
         if (!file.type.startsWith('image/')) return;
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const fileId = `file-${Date.now()}-${Math.random()}`;
-            filesToProcess.push({ id: fileId, file: file });
-
-            const previewCard = document.createElement('div');
-            previewCard.className = 'preview-card';
-            previewCard.id = fileId;
-            previewCard.innerHTML = `
-                <button class="remove-btn">&times;</button>
-                <img src="${e.target.result}" alt="${file.name}">
-                <div class="file-info">
-                    <p class="filename" title="${file.name}">${file.name}</p>
-                    <p class="filesize">${formatBytes(file.size)}</p>
-                </div>
-                <div class="card-status"></div>
-            `;
-            previewGrid.appendChild(previewCard);
-
-            previewCard.querySelector('.remove-btn').addEventListener('click', () => {
-                filesToProcess = filesToProcess.filter(f => f.id !== fileId);
-                previewCard.remove();
-                updateUIState();
-            });
-        };
-        reader.readAsDataURL(file);
+        createImagePreview(file);
     });
     updateUIState();
 }
 
+function createImagePreview(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const fileId = `file-${Date.now()}-${Math.random()}`;
+        filesToProcess.push({ id: fileId, file: file });
+
+        const previewCard = document.createElement('div');
+        previewCard.className = 'preview-card';
+        previewCard.id = fileId;
+        previewCard.innerHTML = `
+            <button class="remove-btn">&times;</button>
+            <img src="${e.target.result}" alt="${file.name}">
+            <div class="file-info">
+                <p class="filename" title="${file.name}">${file.name}</p>
+                <p class="filesize">${formatBytes(file.size)}</p>
+            </div>
+            <div class="card-status"></div>
+        `;
+        previewGrid.appendChild(previewCard);
+
+        previewCard.querySelector('.remove-btn').addEventListener('click', () => {
+            filesToProcess = filesToProcess.filter(f => f.id !== fileId);
+            previewCard.remove();
+            updateUIState();
+        });
+    };
+    reader.readAsDataURL(file);
+}
+
 function updateUIState() {
-    if (filesToProcess.length > 0) {
-        controls.classList.remove('hidden');
-        uploadBox.style.borderStyle = 'solid';
-    } else {
-        controls.classList.add('hidden');
-        resultsArea.classList.add('hidden');
-        uploadBox.style.borderStyle = 'dashed';
+    const hasFiles = filesToProcess.length > 0;
+    controls.classList.toggle('hidden', !hasFiles);
+    resultsArea.classList.toggle('hidden', true); // Always hide results initially
+    uploadBox.style.borderStyle = hasFiles ? 'solid' : 'dashed';
+
+    if (!hasFiles) {
+        statusMessage.textContent = '';
+        resultsList.innerHTML = '';
     }
 }
 
-clearAllBtn.addEventListener('click', () => {
+function handleClearAll() {
     filesToProcess = [];
     previewGrid.innerHTML = '';
-    resultsList.innerHTML = '';
-    statusMessage.textContent = '';
     updateUIState();
-});
+}
 
-// --- New Controls Logic ---
-formatSelect.addEventListener('change', () => {
+function updateControlOptions() {
     const isPNG = formatSelect.value === 'png';
     qualitySelect.disabled = isPNG;
-    if (isPNG) {
-        qualitySelect.parentElement.classList.add('disabled');
-    } else {
-        qualitySelect.parentElement.classList.remove('disabled');
-    }
-    updateConvertButtonText();
-});
-
-function updateConvertButtonText() {
+    qualityControlGroup.classList.toggle('disabled', isPNG);
+    
     const format = formatSelect.options[formatSelect.selectedIndex].text;
     convertAllBtn.textContent = `Convert All to ${format}`;
 }
-updateConvertButtonText();
 
-
-// --- Conversion Logic ---
-convertAllBtn.addEventListener('click', async () => {
+async function handleConvertAll() {
     if (filesToProcess.length === 0) return;
 
     const targetFormat = formatSelect.value;
     const quality = parseFloat(qualitySelect.value);
 
     convertAllBtn.disabled = true;
-    statusMessage.textContent = 'Processing...';
+    statusMessage.textContent = 'Processing... this may take a moment.';
     resultsList.innerHTML = '';
-    resultsArea.classList.add('hidden');
     downloadAllBtn.classList.add('hidden');
     
     let convertedFiles = [];
@@ -142,7 +150,7 @@ convertAllBtn.addEventListener('click', async () => {
     displayResults(convertedFiles);
     statusMessage.textContent = `✅ Conversion Complete!`;
     convertAllBtn.disabled = false;
-});
+}
 
 function convertImage(file, format, quality) {
    const mimeType = format === 'jpg' ? 'image/jpeg' : `image/${format}`;
@@ -156,20 +164,16 @@ function convertImage(file, format, quality) {
 
         img.onload = () => {
             const canvas = document.createElement('canvas');
-            // Handle transparency for non-PNG outputs from formats like SVG
-            if (file.type === 'image/svg+xml' && format !== 'png') {
-                 canvas.width = img.width;
-                 canvas.height = img.height;
-                 const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+
+            // If converting from a format with transparency (like PNG or SVG) to JPG, draw a white background first.
+            if ((file.type !== 'image/jpeg') && format === 'jpg') {
                  ctx.fillStyle = 'white';
                  ctx.fillRect(0, 0, canvas.width, canvas.height);
-                 ctx.drawImage(img, 0, 0);
-            } else {
-                canvas.width = img.width;
-                canvas.height = img.height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
             }
+            ctx.drawImage(img, 0, 0);
 
             canvas.toBlob((blob) => {
                 if (blob) {
@@ -207,7 +211,7 @@ function displayResults(converted) {
         resultItem.className = 'result-item';
         resultItem.innerHTML = `
              <div class="result-info">
-                <div class="filename">${newFileName}</div>
+                <div class="filename" title="${newFileName}">${newFileName}</div>
                 <div class="size-details">
                     Original: ${formatBytes(fileData.originalSize)} &rarr; New: ${formatBytes(fileData.newSize)}
                     <span class="reduction">(${reduction.toFixed(1)}% smaller)</span>
@@ -244,6 +248,7 @@ function displayResults(converted) {
     }
 }
 
+// --- Helper Functions ---
 function formatBytes(bytes, decimals = 2) {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -259,7 +264,11 @@ function downloadBlob(blob, filename) {
     a.href = url;
     a.download = filename;
     document.body.appendChild(a);
-    a.click();
+a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
+
+// Initial state setup
+updateControlOptions();
+
