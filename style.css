@@ -72,7 +72,7 @@ body {
     color: #555;
 }
 
-/* --- NEW DROPDOWN STYLES --- */
+/* --- DROPDOWN STYLES (FIXED) --- */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -80,6 +80,9 @@ body {
 
 .dropbtn {
     cursor: pointer;
+    /* This padding creates an invisible "bridge" for the mouse */
+    padding-bottom: 15px;
+    margin-bottom: -15px;
 }
 
 .dropdown-content {
@@ -92,6 +95,8 @@ body {
     border: 2px solid var(--border-color);
     border-radius: 6px;
     margin-top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .dropdown-content a {
