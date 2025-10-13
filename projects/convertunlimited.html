@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO: More descriptive title -->
-    <title>Free Unlimited Image Converter - Convert to WEBP, JPG, PNG</title>
-    <!-- SEO: Compelling meta description -->
-    <meta name="description" content="A free, unlimited, and private tool to batch convert images to WEBP, JPG, or PNG. Adjust quality, download as a ZIP, and optimize your images for SEO right in your browser.">
+    <title>Unlimited Image Converter | ThisSupposeToBeFree.com</title>
+    <meta name="description" content="A free, unlimited, and private tool to convert JPG, PNG, GIF, and SVG images to WebP, JPEG, or PNG right in your browser. No uploads, no limits.">
+
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2823470980745945"
      crossorigin="anonymous"></script>
+
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="/style.css">
 </head>
@@ -19,12 +19,7 @@
             <a href="/" class="nav-logo">ThisSupposeToBeFree<span>.com</span></a>
             <div class="nav-links">
                 <a href="/">Home</a>
-                <div class="dropdown">
-                    <a href="#" class="dropbtn">Projects ▼</a>
-                    <div class="dropdown-content">
-                        <a href="/projects/convertunlimited.html">Image Converter</a>
-                    </div>
-                </div>
+                <a href="/convertunlimited.html">Tools</a>
                 <a href="/about.html">About Me</a>
                 <a href="mailto:hello@thissupposetobefree.com?subject=This%20Suppose%20to%20Be%20Free%20Idea" class="nav-button-submit">Submit Request</a>
             </div>
@@ -32,22 +27,17 @@
     </nav>
     
     <main class="container">
-        <!-- SEO: Added H1 and descriptive text -->
-        <div class="tool-header">
-            <h1>Unlimited Image Converter</h1>
-            <p>Batch convert your JPG, PNG, GIF, and SVG images to modern formats like WEBP. All processing happens securely in your browser—no uploads, no limits.</p>
-        </div>
-
         <div id="converter-ui">
             <div id="upload-box">
                 <input type="file" id="image-input" hidden multiple accept="image/jpeg,image/png,image/gif,image/svg+xml">
                 <span class="upload-label">Drag & drop your images here, or click to select files</span>
             </div>
+
             <div id="controls" class="hidden">
                 <div class="controls-wrapper">
                     <div class="control-group">
                         <label for="format-select">Convert to:</label>
-                        <select id="format-select" class="dropdown-select">
+                        <select id="format-select" class="dropdown">
                             <option value="webp" selected>WebP</option>
                             <option value="jpg">JPG</option>
                             <option value="png">PNG</option>
@@ -55,7 +45,7 @@
                     </div>
                     <div id="quality-control-group" class="control-group">
                         <label for="quality-select">Quality:</label>
-                        <select id="quality-select" class="dropdown-select">
+                        <select id="quality-select" class="dropdown">
                             <option value="0.95">Keep Original</option>
                             <option value="0.85">Less Compression</option>
                             <option value="0.75" selected>Recommended</option>
@@ -68,36 +58,40 @@
                     <button id="clear-all-btn" class="clear-button">Clear All</button>
                 </div>
             </div>
+
             <div id="preview-grid"></div>
-            <p id="status-message"></p>
+
+            <div id="results-area" class="hidden">
+                <h3>Batch Conversion Results</h3>
+                <div id="results-list"></div>
+                <button id="download-all-btn" class="button download-all hidden">📦 Download All as ZIP</button>
+            </div>
+             
+             <p id="status-message"></p>
+
             <div class="ads-placeholder">
                 Google AdSense Banner (e.g., 728x90)
             </div>
         </div>
-
-        <!-- SEO: Added H2 and paragraph content -->
-        <section class="info-box text-content">
-            <h2>Why Use an Online Image Converter?</h2>
-            <p>Optimizing images is one of the most important steps for improving website speed and SEO. Large image files can slow down your site, leading to a poor user experience and lower rankings in search engines. By converting your images to modern, efficient formats like WebP, or compressing JPEGs, you can significantly reduce file sizes without sacrificing quality. This tool is designed to make that process fast, free, and completely private.</p>
-        </section>
-
     </main>
+
      <footer>
         Inspired by John Sorrentino (Favicon.io) &middot; Built with caffeine & mild rage &copy; 2025 &middot; 
         <a href="mailto:hello@thissupposetobefree.com">Contact</a> &middot;
         <a href="https://github.com/dunkin-novice/ThisSupposeToBeFree.com" target="_blank" rel="noopener">GitHub</a> &middot;
-        <a href="/privacy.html">Privacy Policy</a> &middot;
         <a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener">Buy Me a Coffee</a>
     </footer>
+
     <div id="drag-overlay" class="hidden">
        <div class="drag-overlay-content">
             <h2>Drop files anywhere to upload</h2>
        </div>
     </div>
+
     <!-- JSZip Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <!-- Converter Logic -->
-    <script src="/projects/converter.js"></script>
+    <script src="/converter.js"></script>
 </body>
 </html>
 
