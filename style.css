@@ -294,6 +294,14 @@ main {
     margin: 0 auto;
 }
 
+/* SEO: New text content box for converter page */
+.text-content {
+    text-align: left;
+}
+.text-content h2 {
+    text-align: center;
+}
+
 
 #drag-overlay {
     position: fixed;
