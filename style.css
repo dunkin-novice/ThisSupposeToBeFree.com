@@ -131,6 +131,22 @@ body {
     color: var(--text-color);
 }
 
+/* NEW Secondary Nav Button */
+.nav-button-secondary {
+    background-color: var(--bg-box);
+    padding: 8px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 3px 3px 0 0 var(--border-color);
+    transition: all 0.2s;
+}
+.nav-button-secondary:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 0 var(--border-color);
+    color: var(--text-color);
+}
+
+
 /* --- General & Homepage Styles --- */
 .container {
     max-width: 800px;
@@ -206,7 +222,6 @@ main {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
-/* --- NEW HOVER AND ACTIVE STYLES --- */
 .tool-card-link:hover .tool-card {
     background-color: var(--yellow-hover);
     transform: translateY(-4px);
@@ -218,7 +233,6 @@ main {
     transform: translateY(-2px);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-/* --- END NEW STYLES --- */
 
 .tool-card h3 {
     margin-top: 0;
@@ -277,8 +291,6 @@ main {
 }
 
 /* --- CONVERTER UI STYLES --- */
-
-/* SEO: New header styles for converter page */
 .tool-header {
     text-align: center;
     margin-bottom: 20px;
@@ -293,8 +305,6 @@ main {
     max-width: 600px;
     margin: 0 auto;
 }
-
-/* SEO: New text content box for converter page */
 .text-content {
     text-align: left;
 }
@@ -387,6 +397,15 @@ main {
     opacity: 0.5;
 }
 
+#png-note {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #555;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+
 #preview-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -445,6 +464,10 @@ main {
 .card-footer {
     padding: 10px;
     border-top: 2px solid #f0f0f0;
+    min-height: 56px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .single-convert-btn, .single-download-link {
@@ -479,28 +502,6 @@ main {
     color: var(--danger-color);
 }
 
-#results-area {
-    margin-top: 40px;
-    background-color: var(--bg-box);
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    padding: 24px;
-}
-#results-area h3 {
-    margin-top: 0;
-    text-align: center;
-}
-.result-item {
-    background-color: #f8f8f8;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    padding: 15px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
 .button.download-all {
     display: block;
     width: 100%;
@@ -527,18 +528,30 @@ main {
     max-width: 728px;
     font-size: 0.9rem;
 }
+
+/* FOOTER FIX */
 footer {
     text-align: center;
-    padding: 40px 0 20px 0;
+    padding: 40px 20px 20px 20px;
     margin-top: 20px;
     color: var(--text-color);
     font-size: 0.9rem;
 }
-footer a {
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px 15px;
+}
+.footer-links a {
     color: var(--text-color);
     font-weight: 600;
     text-decoration: underline;
 }
+.footer-links span {
+    white-space: nowrap;
+}
+
 
 @media (max-width: 768px) {
     .nav-links {
