@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unlimited Image Converter | ThisSupposeToBeFree.com</title>
     <meta name="description" content="A free, unlimited, and private tool to convert JPG, PNG, GIF, and SVG images to WebP, JPEG, or PNG right in your browser. No uploads, no limits.">
-
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2823470980745945"
      crossorigin="anonymous"></script>
-
     <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="/style.css">
 </head>
@@ -19,7 +17,6 @@
             <a href="/" class="nav-logo">ThisSupposeToBeFree<span>.com</span></a>
             <div class="nav-links">
                 <a href="/">Home</a>
-                <!-- Updated Tools link to be a dropdown -->
                 <div class="dropdown">
                     <a href="#" class="dropbtn">Tools ▼</a>
                     <div class="dropdown-content">
@@ -38,7 +35,6 @@
                 <input type="file" id="image-input" hidden multiple accept="image/jpeg,image/png,image/gif,image/svg+xml">
                 <span class="upload-label">Drag & drop your images here, or click to select files</span>
             </div>
-
             <div id="controls" class="hidden">
                 <div class="controls-wrapper">
                     <div class="control-group">
@@ -64,39 +60,29 @@
                     <button id="clear-all-btn" class="clear-button">Clear All</button>
                 </div>
             </div>
-
             <div id="preview-grid"></div>
-
-            <div id="results-area" class="hidden">
-                <h3>Batch Conversion Results</h3>
-                <div id="results-list"></div>
-                <button id="download-all-btn" class="button download-all hidden">📦 Download All as ZIP</button>
-            </div>
-             
-             <p id="status-message"></p>
-
+            <p id="status-message"></p>
             <div class="ads-placeholder">
                 Google AdSense Banner (e.g., 728x90)
             </div>
         </div>
     </main>
-
      <footer>
         Inspired by John Sorrentino (Favicon.io) &middot; Built with caffeine & mild rage &copy; 2025 &middot; 
         <a href="mailto:hello@thissupposetobefree.com">Contact</a> &middot;
         <a href="https://github.com/dunkin-novice/ThisSupposeToBeFree.com" target="_blank" rel="noopener">GitHub</a> &middot;
+        <a href="/privacy.html">Privacy Policy</a> &middot;
         <a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener">Buy Me a Coffee</a>
     </footer>
-
     <div id="drag-overlay" class="hidden">
        <div class="drag-overlay-content">
             <h2>Drop files anywhere to upload</h2>
        </div>
     </div>
-
     <!-- JSZip Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <!-- Converter Logic -->
     <script src="/projects/converter.js"></script>
 </body>
 </html>
+
