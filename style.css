@@ -110,6 +110,48 @@ main {
     padding-top: 20px;
 }
 
+.info-box {
+    background-color: var(--bg-box);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.info-box h2 {
+    margin-top: 0;
+}
+
+.tool-card {
+    background-color: #fff;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: left;
+}
+.tool-card h3 {
+    margin-top: 0;
+}
+
+.tool-link {
+    display: inline-block;
+    margin-top: 10px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.affiliate-notice {
+    background-color: #fff9e3;
+    border: 1px solid #ffe694;
+    border-radius: 6px;
+    padding: 15px;
+    font-size: 0.9rem;
+    text-align: left;
+    margin-top: 20px;
+}
+
 .button {
     display: inline-block;
     background-color: var(--bg-accent);
@@ -147,7 +189,7 @@ main {
     margin-left: 15px;
 }
 
-/* --- NEW CONVERTER UI STYLES --- */
+/* --- CONVERTER UI STYLES --- */
 
 #drag-overlay {
     position: fixed;
