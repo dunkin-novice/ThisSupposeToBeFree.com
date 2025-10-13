@@ -1,0 +1,6 @@
+Allow all web crawlers to access all content
+User-agent: *
+Allow: /
+
+Provide a link to the sitemap for better indexing
+Sitemap: https://www.google.com/search?q=https://thissupposetobefree.com/sitemap.xml
