@@ -1,310 +1,279 @@
-// Get references to our HTML elements
-const imageInput = document.getElementById('image-input');
-const dragOverlay = document.getElementById('drag-overlay');
+// --- DOM Element References ---
 const uploadBox = document.getElementById('upload-box');
+const imageInput = document.getElementById('image-input');
 const controls = document.getElementById('controls');
-const formatSelect = document.getElementById('format-select');
-const qualitySelect = document.getElementById('quality-select');
-const qualityControlGroup = document.getElementById('quality-control-group');
 const convertAllBtn = document.getElementById('convert-all-btn');
 const clearAllBtn = document.getElementById('clear-all-btn');
 const previewGrid = document.getElementById('preview-grid');
-const resultsArea = document.getElementById('results-area');
-const resultsList = document.getElementById('results-list');
-const downloadAllBtn = document.getElementById('download-all-btn');
 const statusMessage = document.getElementById('status-message');
+const dragOverlay = document.getElementById('drag-overlay');
+const formatSelect = document.getElementById('format-select');
+const qualityControlGroup = document.getElementById('quality-control-group');
+const qualitySelect = document.getElementById('quality-select');
 
-let filesToProcess = [];
+let uploadedFiles = [];
+let isBatchConverting = false;
 let dragCounter = 0;
-
-// --- Drag and Drop Logic ---
-window.addEventListener('dragenter', (e) => {
-    e.preventDefault();
-    if (e.dataTransfer.types && Array.from(e.dataTransfer.types).includes('Files')) {
-        dragCounter++;
-        dragOverlay.classList.remove('hidden');
-    }
-});
-dragOverlay.addEventListener('dragleave', (e) => {
-    e.preventDefault();
-    dragCounter--;
-    if (dragCounter === 0) {
-        dragOverlay.classList.add('hidden');
-    }
-});
-dragOverlay.addEventListener('dragover', (e) => e.preventDefault());
-dragOverlay.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dragCounter = 0;
-    dragOverlay.classList.add('hidden');
-    handleFiles(e.dataTransfer.files);
-});
 
 // --- Event Listeners ---
 uploadBox.addEventListener('click', () => imageInput.click());
-imageInput.addEventListener('change', () => handleFiles(imageInput.files));
+imageInput.addEventListener('change', (e) => {
+    handleFileUpload(e.target.files);
+    e.target.value = null; // Reset input to allow re-uploading the same file
+});
+
+// Drag and Drop Listeners for the entire window
+window.addEventListener('dragenter', (e) => {
+    e.preventDefault();
+    if (isBatchConverting) return;
+    if (Array.from(e.dataTransfer.types).includes('Files')) {
+        dragCounter++;
+        if (dragCounter === 1) dragOverlay.classList.remove('hidden');
+    }
+});
+
+window.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    dragCounter--;
+    if (dragCounter === 0) dragOverlay.classList.add('hidden');
+});
+
+window.addEventListener('dragover', (e) => e.preventDefault());
+
+window.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dragOverlay.classList.add('hidden');
+    dragCounter = 0;
+    if (isBatchConverting) return;
+    handleFileUpload(e.dataTransfer.files);
+});
+
+// Control Listeners
+convertAllBtn.addEventListener('click', handleBatchConvert);
 clearAllBtn.addEventListener('click', handleClearAll);
-convertAllBtn.addEventListener('click', handleConvertAll);
-formatSelect.addEventListener('change', updateControlOptions);
+formatSelect.addEventListener('change', updateUI);
+qualitySelect.addEventListener('change', updateUI);
+
 
 // --- Core Functions ---
-function handleFiles(files) {
-    Array.from(files).forEach(file => {
-        if (!file.type.startsWith('image/')) return;
-        createImagePreview(file);
+
+function handleFileUpload(files) {
+    const imageFiles = Array.from(files).filter(file => file.type.startsWith('image/'));
+    if (imageFiles.length === 0) return;
+
+    imageFiles.forEach(file => {
+        const fileId = `${file.name}-${file.lastModified}`;
+        const newFile = { id: fileId, file: file, status: 'pending' };
+        uploadedFiles.push(newFile);
+        createPreviewCard(newFile);
+    });
+    updateUI();
+}
+
+function createPreviewCard(fileData) {
+    const card = document.createElement('div');
+    card.className = 'preview-card';
+    card.dataset.fileId = fileData.id;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        card.innerHTML = `
+            <button class="remove-btn">&times;</button>
+            <img src="${e.target.result}" alt="Preview of ${fileData.file.name}">
+            <div class="file-info">
+                <p class="filename" title="${fileData.file.name}">${fileData.file.name}</p>
+                <p class="filesize">${(fileData.file.size / 1024).toFixed(1)} KB</p>
+            </div>
+            <div class="card-footer">
+                <button class="button single-convert-btn">Convert</button>
+            </div>
+        `;
+        previewGrid.appendChild(card);
+        // Add event listeners after the card is in the DOM
+        card.querySelector('.remove-btn').addEventListener('click', () => handleRemoveFile(fileData.id));
+        card.querySelector('.single-convert-btn').addEventListener('click', () => handleSingleConvert(fileData.id));
+    };
+    reader.readAsDataURL(fileData.file);
+}
+
+async function handleSingleConvert(fileId) {
+    const card = document.querySelector(`.preview-card[data-file-id="${fileId}"]`);
+    const fileData = uploadedFiles.find(f => f.id === fileId);
+    if (!card || !fileData) return;
+
+    const footerEl = card.querySelector('.card-footer');
+    footerEl.innerHTML = `<p class="card-status">Processing...</p>`;
+    statusMessage.textContent = 'Processing... this may take a moment.';
+
+    try {
+        const result = await convertImage(fileData.file);
+        if (result) {
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(result.blob);
+            downloadLink.download = result.filename;
+            downloadLink.className = 'button single-download-link';
+            downloadLink.textContent = `Download ${result.format.toUpperCase()}`;
+            
+            footerEl.innerHTML = ''; // Clear the footer
+            footerEl.appendChild(downloadLink);
+            fileData.status = 'converted';
+        } else {
+            throw new Error('Conversion returned no result.');
+        }
+    } catch (error) {
+        footerEl.innerHTML = `<p class="card-status error">Failed!</p>`;
+        fileData.status = 'failed';
+        console.error('Single conversion failed:', error);
+    } finally {
+         statusMessage.textContent = ''; // Clear global message after any single attempt
+         updateUI();
+    }
+}
+
+async function handleBatchConvert() {
+    isBatchConverting = true;
+    updateUI();
+
+    const filesToConvert = uploadedFiles.filter(f => f.status === 'pending');
+    for (const fileData of filesToConvert) {
+        await handleSingleConvert(fileData.id);
+    }
+
+    isBatchConverting = false;
+    updateUI();
+}
+
+function handleDownloadAll() {
+    const convertedFiles = uploadedFiles.filter(f => f.status === 'converted');
+    if (convertedFiles.length === 0) return;
+
+    const zip = new JSZip();
+    const downloadLinks = document.querySelectorAll('.single-download-link');
+
+    downloadLinks.forEach(link => {
+        // This is a simplified approach; a robust solution would fetch blobs
+        const filename = link.download;
+        const url = link.href;
+        zip.file(filename, fetch(url).then(res => res.blob()));
+    });
+    
+    zip.generateAsync({type:"blob"}).then(function(content) {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(content);
+        link.download = `ThisSupposeToBeFree.zip`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     });
 }
 
-function createImagePreview(file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        const fileId = `file-${Date.now()}-${Math.random()}`;
-        const fileObject = { id: fileId, file: file, converted: false };
-        filesToProcess.push(fileObject);
 
-        const previewCard = document.createElement('div');
-        previewCard.className = 'preview-card';
-        previewCard.id = fileId;
-        previewCard.innerHTML = `
-            <button class="remove-btn">&times;</button>
-            <img src="${e.target.result}" alt="${file.name}">
-            <div class="file-info">
-                <p class="filename" title="${file.name}">${file.name}</p>
-                <p class="filesize">${formatBytes(file.size)}</p>
-            </div>
-            <div class="card-footer">
-                 <button class="button single-convert-btn">Convert</button>
-            </div>
-        `;
-        previewGrid.appendChild(previewCard);
-
-        previewCard.querySelector('.remove-btn').addEventListener('click', () => {
-            filesToProcess = filesToProcess.filter(f => f.id !== fileId);
-            previewCard.remove();
-            updateUIState();
-        });
-
-        previewCard.querySelector('.single-convert-btn').addEventListener('click', (event) => {
-            handleSingleConvert(fileObject, event.currentTarget);
-        });
-        
-        updateUIState();
-    };
-    reader.readAsDataURL(file);
-}
-
-function updateUIState() {
-    const hasFiles = filesToProcess.length > 0;
-    const hasUnconvertedFiles = filesToProcess.some(f => !f.converted);
-
-    controls.classList.toggle('hidden', !hasFiles);
-    convertAllBtn.classList.toggle('hidden', !hasUnconvertedFiles);
-
-    resultsArea.classList.add('hidden');
-    uploadBox.style.borderStyle = hasFiles ? 'solid' : 'dashed';
-
-    if (!hasFiles) {
-        statusMessage.textContent = '';
-        resultsList.innerHTML = '';
-    }
-}
-
-function handleClearAll() {
-    filesToProcess = [];
-    previewGrid.innerHTML = '';
-    updateUIState();
-}
-
-function updateControlOptions() {
-    const isPNG = formatSelect.value === 'png';
-    qualitySelect.disabled = isPNG;
-    qualityControlGroup.classList.toggle('disabled', isPNG);
-    
-    const format = formatSelect.options[formatSelect.selectedIndex].text;
-    convertAllBtn.textContent = `Convert All to ${format}`;
-}
-
-async function handleSingleConvert(fileObject, button) {
-    button.disabled = true;
-    button.textContent = 'Converting...';
-
-    const targetFormat = formatSelect.value;
-    const quality = parseFloat(qualitySelect.value);
-    const result = await convertImage(fileObject.file, targetFormat, quality);
-
-    if (result) {
-        const baseName = result.originalName.substring(0, result.originalName.lastIndexOf('.') || result.originalName.length);
-        const newFileName = `${baseName}.${result.newExtension}`;
-        
-        const downloadLink = document.createElement('a');
-        downloadLink.href = URL.createObjectURL(result.blob);
-        downloadLink.download = newFileName;
-        downloadLink.className = 'button single-download-link';
-        downloadLink.textContent = `Download (${formatBytes(result.newSize)})`;
-        
-        button.replaceWith(downloadLink);
-
-        // Mark as converted
-        fileObject.converted = true;
-        updateUIState(); // This will hide the "Convert All" if it's the last one
-    } else {
-        button.textContent = '❌ Failed';
-        button.style.backgroundColor = 'var(--danger-color)';
-    }
-}
-
-
-async function handleConvertAll() {
-    const filesToConvert = filesToProcess.filter(f => !f.converted);
-    if (filesToConvert.length === 0) return;
-
-    const targetFormat = formatSelect.value;
-    const quality = parseFloat(qualitySelect.value);
-
-    convertAllBtn.disabled = true;
-    statusMessage.textContent = 'Processing... this may take a moment.';
-    resultsList.innerHTML = '';
-    downloadAllBtn.classList.add('hidden');
-    
-    let convertedFiles = [];
-
-    for (const fileObj of filesToConvert) {
-        const card = document.getElementById(fileObj.id);
-        const footer = card.querySelector('.card-footer');
-        footer.innerHTML = `<p class="card-status">Converting...</p>`;
-
-        const result = await convertImage(fileObj.file, targetFormat, quality);
-
-        if (result) {
-            convertedFiles.push(result);
-            footer.innerHTML = `<p class="card-status success">✅ Converted (${formatBytes(result.newSize)})</p>`;
-            fileObj.converted = true;
-        } else {
-            footer.innerHTML = `<p class="card-status error">❌ Failed</p>`;
-        }
-    }
-    
-    displayResults(convertedFiles);
-    statusMessage.textContent = `✅ Conversion Complete!`;
-    convertAllBtn.disabled = false;
-    updateUIState();
-}
-
-function convertImage(file, format, quality) {
-   const mimeType = format === 'jpg' ? 'image/jpeg' : `image/${format}`;
-   return new Promise((resolve) => {
-        const img = new Image();
+function convertImage(file) {
+    return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        
-        reader.onload = (e) => {
-            img.src = e.target.result;
+
+        reader.onload = (event) => {
+            const img = new Image();
+            
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth || img.width;
+                canvas.height = img.naturalHeight || img.height;
+                
+                const ctx = canvas.getContext('2d');
+                const targetFormat = formatSelect.value;
+                const mimeType = `image/${targetFormat}`;
+
+                if (targetFormat === 'jpeg' || targetFormat === 'jpg') {
+                    ctx.fillStyle = '#FFFFFF';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+
+                ctx.drawImage(img, 0, 0);
+
+                const qualityValue = parseFloat(qualitySelect.value);
+                const newFileName = file.name.split('.').slice(0, -1).join('.') + `.${targetFormat}`;
+
+                canvas.toBlob(
+                    (blob) => {
+                        if (blob) {
+                            resolve({
+                                blob: blob,
+                                filename: newFileName,
+                                format: targetFormat,
+                                originalSize: file.size,
+                                newSize: blob.size,
+                            });
+                        } else {
+                            reject(new Error('Canvas toBlob returned null.'));
+                        }
+                    },
+                    mimeType,
+                    qualityValue
+                );
+            };
+
+            img.onerror = () => reject(new Error(`Could not load image: ${file.name}.`));
+            img.src = event.target.result; 
         };
 
-        img.onload = () => {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
-            const ctx = canvas.getContext('2d');
-
-            if ((file.type !== 'image/jpeg') && format === 'jpg') {
-                 ctx.fillStyle = 'white';
-                 ctx.fillRect(0, 0, canvas.width, canvas.height);
-            }
-            ctx.drawImage(img, 0, 0);
-
-            canvas.toBlob((blob) => {
-                if (blob) {
-                    resolve({
-                        originalName: file.name,
-                        originalSize: file.size,
-                        blob: blob,
-                        newSize: blob.size,
-                        newExtension: format
-                    });
-                } else { resolve(null); }
-            }, mimeType, quality);
-        };
-        img.onerror = () => resolve(null);
+        reader.onerror = () => reject(new Error(`Could not read file: ${file.name}.`));
         reader.readAsDataURL(file);
     });
 }
 
-function displayResults(converted) {
-     if (converted.length === 0) {
-        statusMessage.textContent = 'Could not convert any of the selected files.';
-        return;
+function handleRemoveFile(fileId) {
+    if (isBatchConverting) return;
+    uploadedFiles = uploadedFiles.filter(f => f.id !== fileId);
+    const card = document.querySelector(`.preview-card[data-file-id="${fileId}"]`);
+    if (card) card.remove();
+    updateUI();
+}
+
+function handleClearAll() {
+    if (isBatchConverting) return;
+    uploadedFiles = [];
+    previewGrid.innerHTML = '';
+    updateUI();
+}
+
+function updateUI() {
+    const hasFiles = uploadedFiles.length > 0;
+    controls.classList.toggle('hidden', !hasFiles);
+
+    // Toggle quality dropdown based on selected format
+    const isPng = formatSelect.value === 'png';
+    qualityControlGroup.classList.toggle('disabled', isPng);
+    qualitySelect.disabled = isPng;
+    
+    const filesToConvert = uploadedFiles.filter(f => f.status === 'pending').length;
+    const filesConverted = uploadedFiles.filter(f => f.status === 'converted').length;
+
+    if (isBatchConverting) {
+        convertAllBtn.disabled = true;
+        convertAllBtn.textContent = `Converting...`;
+        clearAllBtn.style.display = 'none';
+    } else if (hasFiles && filesToConvert > 0) {
+        // State: Ready to convert
+        convertAllBtn.disabled = false;
+        const format = formatSelect.value.toUpperCase();
+        convertAllBtn.textContent = `Convert All to ${format}`;
+        convertAllBtn.onclick = handleBatchConvert;
+        clearAllBtn.style.display = 'inline-block';
+    } else if (hasFiles && filesToConvert === 0 && filesConverted > 0) {
+        // State: All converted, ready to download
+        convertAllBtn.disabled = false;
+        convertAllBtn.textContent = 'Download All (.zip)';
+        convertAllBtn.onclick = handleDownloadAll;
+        clearAllBtn.style.display = 'inline-block';
+    } else {
+         clearAllBtn.style.display = 'inline-block';
     }
 
-    resultsArea.classList.remove('hidden');
-    resultsList.innerHTML = '';
-
-    converted.forEach((fileData) => {
-        const reduction = 100 - (fileData.newSize / fileData.originalSize) * 100;
-        const baseName = fileData.originalName.substring(0, fileData.originalName.lastIndexOf('.') || fileData.originalName.length);
-        const newFileName = `${baseName}.${fileData.newExtension}`;
-        
-        const resultItem = document.createElement('div');
-        resultItem.className = 'result-item';
-        resultItem.innerHTML = `
-             <div class="result-info">
-                <div class="filename" title="${newFileName}">${newFileName}</div>
-                <div class="size-details">
-                    Original: ${formatBytes(fileData.originalSize)} &rarr; New: ${formatBytes(fileData.newSize)}
-                    <span class="reduction">(${reduction.toFixed(1)}% smaller)</span>
-                </div>
-            </div>
-            <button class="button download-btn">Download</button>
-        `;
-        resultsList.appendChild(resultItem);
-        
-        resultItem.querySelector('.download-btn').addEventListener('click', () => {
-            downloadBlob(fileData.blob, newFileName);
-        });
+    // Update individual convert button texts
+    const format = formatSelect.value.toUpperCase();
+    document.querySelectorAll('.single-convert-btn').forEach(btn => {
+        btn.textContent = `Convert to ${format}`;
     });
-
-    if (converted.length > 1) {
-        downloadAllBtn.classList.remove('hidden');
-        downloadAllBtn.onclick = async () => {
-            const btnOriginalText = downloadAllBtn.textContent;
-            downloadAllBtn.textContent = "Zipping...";
-            downloadAllBtn.disabled = true;
-
-            const zip = new JSZip();
-            converted.forEach(fileData => {
-                const baseName = fileData.originalName.substring(0, fileData.originalName.lastIndexOf('.') || fileData.originalName.length);
-                const newFileName = `${baseName}.${fileData.newExtension}`;
-                zip.file(newFileName, fileData.blob);
-            });
-            const zipBlob = await zip.generateAsync({type:"blob"});
-            downloadBlob(zipBlob, "ThisSupposeToBeFree_Images.zip");
-            
-            downloadAllBtn.textContent = btnOriginalText;
-            downloadAllBtn.disabled = false;
-        };
-    }
 }
-
-// --- Helper Functions ---
-function formatBytes(bytes, decimals = 2) {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-}
-
-function downloadBlob(blob, filename) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-
-// Initial state setup
-updateControlOptions();
 
