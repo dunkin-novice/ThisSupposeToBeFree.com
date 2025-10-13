@@ -6,6 +6,8 @@
     --bg-box: #ffffff;
     --success-color: #2da44e;
     --danger-color: #f85149;
+    --yellow-hover: #fff7ad;
+    --yellow-active: #fbec8f; /* A darker yellow for click effect */
 }
 
 body {
@@ -72,7 +74,7 @@ body {
     color: #555;
 }
 
-/* --- DROPDOWN STYLES (FIXED) --- */
+/* --- DROPDOWN STYLES --- */
 .dropdown {
     position: relative;
     display: inline-block;
@@ -80,7 +82,6 @@ body {
 
 .dropbtn {
     cursor: pointer;
-    /* This padding creates an invisible "bridge" for the mouse */
     padding-bottom: 15px;
     margin-bottom: -15px;
 }
@@ -114,7 +115,6 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
-/* --- END DROPDOWN STYLES --- */
 
 
 .nav-button-submit {
@@ -203,13 +203,22 @@ main {
     border-radius: 6px;
     padding: 20px;
     text-align: left;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out;
 }
 
+/* --- NEW HOVER AND ACTIVE STYLES --- */
 .tool-card-link:hover .tool-card {
+    background-color: var(--yellow-hover);
     transform: translateY(-4px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
+
+.tool-card-link:active .tool-card {
+    background-color: var(--yellow-active);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+/* --- END NEW STYLES --- */
 
 .tool-card h3 {
     margin-top: 0;
@@ -268,6 +277,23 @@ main {
 }
 
 /* --- CONVERTER UI STYLES --- */
+
+/* SEO: New header styles for converter page */
+.tool-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.tool-header h1 {
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+.tool-header p {
+    font-size: 1.1rem;
+    color: #333;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
 
 #drag-overlay {
     position: fixed;
