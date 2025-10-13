@@ -11,24 +11,19 @@
 
 </head>
 <body>
-    <!-- New Navigation Bar -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="/" class="nav-logo">ThisSupposeToBeFree<span>.com</span></a>
             <div class="nav-links">
                 <a href="/">Home</a>
-                <a href="/tools/ConvertUnlimited">Tools</a>
+                <a href="/convertunlimited.html">Tools</a>
                 <a href="mailto:hello@thissupposetobefree.com?subject=This%20Suppose%20to%20Be%20Free%20Idea" class="nav-button-submit">Submit Request</a>
-                <a href="#" class="nav-button-coffee">Buy Me a Coffee</a>
+                <a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener" class="nav-button-coffee">Buy Me a Coffee</a>
             </div>
         </div>
     </nav>
     
     <div class="container">
-        <header>
-             <!-- The old header is now replaced by the navbar, this can be removed or kept for styling -->
-        </header>
-
         <main>
             <div class="tool-box">
                 <h2>Unlimited Image Converter</h2>
@@ -36,7 +31,7 @@
                 
                 <label class="file-input-wrapper" for="image-input">
                     📂 Select Images
-                    <input type="file" id="image-input" accept="image/jpeg,image/png,image/gif/svg+xml" multiple>
+                    <input type="file" id="image-input" accept="image/jpeg,image/png,image/gif,image/svg+xml" multiple>
                 </label>
 
                 <p id="file-chosen">No files selected</p>
@@ -67,7 +62,7 @@
             Built with caffeine & mild rage &copy; 2025 &middot; 
             <a href="mailto:hello@thissupposetobefree.com">Contact</a> &middot;
             <a href="https://github.com/dunkin-novice/ThisSupposeToBeFree.com" target="_blank" rel="noopener">GitHub</a> &middot;
-            <a href="#" target="_blank" rel="noopener">Buy Me a Coffee</a>
+            <a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener">Buy Me a Coffee</a>
         </footer>
     </div>
 
@@ -240,11 +235,10 @@
             a.href = url;
             a.download = filename;
             document.body.appendChild(a);
-a.click();
+            a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
     </script>
 </body>
 </html>
-
