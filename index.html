@@ -27,6 +27,55 @@
     <!-- Google AdSense Script -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2823470980745945"
      crossorigin="anonymous"></script>
+    
+    <!-- NEW: Schema Markup (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://thissupposetobefree.com/#website",
+          "url": "https://thissupposetobefree.com/",
+          "name": "ThisSupposeToBeFree.com",
+          "description": "A community-driven project to build free, simple, and unlimited alternatives to common online tools that are stuck behind paywalls.",
+          "publisher": {
+            "@id": "https://thissupposetobefree.com/#organization"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://thissupposetobefree.com/#organization",
+          "name": "ThisSupposeToBeFree.com",
+          "url": "https://thissupposetobefree.com/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://thissupposetobefree.com/logo.png" 
+          },
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "email": "hello@thissupposetobefree.com",
+            "contactType": "customer support"
+          }
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Unlimited Image Converter",
+          "url": "https://thissupposetobefree.com/projects/convertunlimited.html",
+          "applicationCategory": "MultimediaApplication",
+          "operatingSystem": "Any (Web Browser)",
+          "description": "A free, unlimited, and private tool to batch convert images to WEBP, JPG, or PNG. Adjust quality and download as a ZIP right in your browser.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          }
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
