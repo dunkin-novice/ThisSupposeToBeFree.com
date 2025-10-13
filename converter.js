@@ -20,13 +20,11 @@ let dragCounter = 0;
 // --- Drag and Drop Logic ---
 window.addEventListener('dragenter', (e) => {
     e.preventDefault();
-    // Check if files are being dragged
     if (e.dataTransfer.types && Array.from(e.dataTransfer.types).includes('Files')) {
         dragCounter++;
         dragOverlay.classList.remove('hidden');
     }
 });
-
 dragOverlay.addEventListener('dragleave', (e) => {
     e.preventDefault();
     dragCounter--;
@@ -34,9 +32,7 @@ dragOverlay.addEventListener('dragleave', (e) => {
         dragOverlay.classList.add('hidden');
     }
 });
-
 dragOverlay.addEventListener('dragover', (e) => e.preventDefault());
-
 dragOverlay.addEventListener('drop', (e) => {
     e.preventDefault();
     dragCounter = 0;
@@ -63,7 +59,8 @@ function createImagePreview(file) {
     const reader = new FileReader();
     reader.onload = (e) => {
         const fileId = `file-${Date.now()}-${Math.random()}`;
-        filesToProcess.push({ id: fileId, file: file });
+        const fileObject = { id: fileId, file: file, converted: false };
+        filesToProcess.push(fileObject);
 
         const previewCard = document.createElement('div');
         previewCard.className = 'preview-card';
@@ -75,7 +72,9 @@ function createImagePreview(file) {
                 <p class="filename" title="${file.name}">${file.name}</p>
                 <p class="filesize">${formatBytes(file.size)}</p>
             </div>
-            <div class="card-status"></div>
+            <div class="card-footer">
+                 <button class="button single-convert-btn">Convert</button>
+            </div>
         `;
         previewGrid.appendChild(previewCard);
 
@@ -85,7 +84,10 @@ function createImagePreview(file) {
             updateUIState();
         });
 
-        // This is the fix: Update the UI after each file has been processed by the FileReader
+        previewCard.querySelector('.single-convert-btn').addEventListener('click', (event) => {
+            handleSingleConvert(fileObject, event.currentTarget);
+        });
+        
         updateUIState();
     };
     reader.readAsDataURL(file);
@@ -93,8 +95,12 @@ function createImagePreview(file) {
 
 function updateUIState() {
     const hasFiles = filesToProcess.length > 0;
+    const hasUnconvertedFiles = filesToProcess.some(f => !f.converted);
+
     controls.classList.toggle('hidden', !hasFiles);
-    resultsArea.classList.add('hidden'); // Always hide results when the state changes
+    convertAllBtn.classList.toggle('hidden', !hasUnconvertedFiles);
+
+    resultsArea.classList.add('hidden');
     uploadBox.style.borderStyle = hasFiles ? 'solid' : 'dashed';
 
     if (!hasFiles) {
@@ -118,8 +124,39 @@ function updateControlOptions() {
     convertAllBtn.textContent = `Convert All to ${format}`;
 }
 
+async function handleSingleConvert(fileObject, button) {
+    button.disabled = true;
+    button.textContent = 'Converting...';
+
+    const targetFormat = formatSelect.value;
+    const quality = parseFloat(qualitySelect.value);
+    const result = await convertImage(fileObject.file, targetFormat, quality);
+
+    if (result) {
+        const baseName = result.originalName.substring(0, result.originalName.lastIndexOf('.') || result.originalName.length);
+        const newFileName = `${baseName}.${result.newExtension}`;
+        
+        const downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(result.blob);
+        downloadLink.download = newFileName;
+        downloadLink.className = 'button single-download-link';
+        downloadLink.textContent = `Download (${formatBytes(result.newSize)})`;
+        
+        button.replaceWith(downloadLink);
+
+        // Mark as converted
+        fileObject.converted = true;
+        updateUIState(); // This will hide the "Convert All" if it's the last one
+    } else {
+        button.textContent = '❌ Failed';
+        button.style.backgroundColor = 'var(--danger-color)';
+    }
+}
+
+
 async function handleConvertAll() {
-    if (filesToProcess.length === 0) return;
+    const filesToConvert = filesToProcess.filter(f => !f.converted);
+    if (filesToConvert.length === 0) return;
 
     const targetFormat = formatSelect.value;
     const quality = parseFloat(qualitySelect.value);
@@ -131,27 +168,26 @@ async function handleConvertAll() {
     
     let convertedFiles = [];
 
-    for (const fileObj of filesToProcess) {
+    for (const fileObj of filesToConvert) {
         const card = document.getElementById(fileObj.id);
-        const statusDiv = card.querySelector('.card-status');
-        statusDiv.textContent = 'Converting...';
-        statusDiv.style.color = 'var(--text-color)';
+        const footer = card.querySelector('.card-footer');
+        footer.innerHTML = `<p class="card-status">Converting...</p>`;
 
         const result = await convertImage(fileObj.file, targetFormat, quality);
 
         if (result) {
             convertedFiles.push(result);
-            statusDiv.textContent = `✅ Converted (${formatBytes(result.newSize)})`;
-            statusDiv.style.color = 'var(--success-color)';
+            footer.innerHTML = `<p class="card-status success">✅ Converted (${formatBytes(result.newSize)})</p>`;
+            fileObj.converted = true;
         } else {
-            statusDiv.textContent = '❌ Failed';
-            statusDiv.style.color = 'var(--danger-color)';
+            footer.innerHTML = `<p class="card-status error">❌ Failed</p>`;
         }
     }
     
     displayResults(convertedFiles);
     statusMessage.textContent = `✅ Conversion Complete!`;
     convertAllBtn.disabled = false;
+    updateUIState();
 }
 
 function convertImage(file, format, quality) {
@@ -170,7 +206,6 @@ function convertImage(file, format, quality) {
             canvas.height = img.height;
             const ctx = canvas.getContext('2d');
 
-            // If converting from a format with transparency (like PNG or SVG) to JPG, draw a white background first.
             if ((file.type !== 'image/jpeg') && format === 'jpg') {
                  ctx.fillStyle = 'white';
                  ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -189,7 +224,6 @@ function convertImage(file, format, quality) {
                 } else { resolve(null); }
             }, mimeType, quality);
         };
-
         img.onerror = () => resolve(null);
         reader.readAsDataURL(file);
     });
