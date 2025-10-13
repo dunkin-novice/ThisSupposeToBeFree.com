@@ -86,17 +86,6 @@ body {
     color: var(--text-color);
 }
 
-.nav-button-coffee {
-    background-color: #fff;
-    padding: 8px 16px;
-    border: 2px solid var(--border-color);
-    border-radius: 6px;
-}
-.nav-button-coffee:hover {
-    background-color: #f0f0f0;
-     color: var(--text-color);
-}
-
 /* --- General & Homepage Styles --- */
 .container {
     max-width: 800px;
@@ -110,6 +99,34 @@ main {
     padding-top: 20px;
 }
 
+/* NEW HERO SECTION STYLES */
+.hero-section {
+    background-color: var(--bg-box);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    padding: 40px 24px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.hero-section p {
+    font-size: 1.1rem;
+    color: #333;
+    max-width: 600px;
+    margin: 0 auto 25px auto;
+}
+
+.hero-button {
+    font-size: 1.2rem;
+    padding: 14px 28px;
+}
+
 .info-box {
     background-color: var(--bg-box);
     border: 2px solid var(--border-color);
@@ -118,6 +135,11 @@ main {
     margin-bottom: 30px;
     text-align: center;
 }
+.info-box.cta-box {
+    background-color: #fff;
+    border: 2px solid var(--border-color);
+}
+
 
 .info-box h2 {
     margin-top: 0;
