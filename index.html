@@ -3,290 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unlimited Image Converter to WebP | ThisSupposeToBeFree.com</title>
+    <title>Unlimited Image Converter | ThisSupposeToBeFree.com</title>
     <meta name="description" content="A free, unlimited, and private tool to convert JPG, PNG, GIF, and SVG images to WebP right in your browser. No uploads, no limits.">
     
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- JSZip Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-    <style>
-        :root {
-            --primary-color: #0d1117;
-            --secondary-color: #161b22;
-            --border-color: #30363d;
-            --text-color: #c9d1d9;
-            --text-secondary-color: #8b949e;
-            --accent-color: #00b7ff;
-            --accent-hover-color: #38c8ff;
-            --success-color: #2da44e;
-            --danger-color: #f85149;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        header h1 a {
-            font-size: 2rem;
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        header h1 a span {
-            color: var(--accent-color);
-        }
-
-        header p {
-            color: var(--text-secondary-color);
-            margin-top: 5px;
-        }
-
-        main {
-            flex-grow: 1;
-            padding: 30px 0;
-        }
-
-        .tool-box {
-            background-color: var(--secondary-color);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 24px;
-            text-align: center;
-        }
-
-        .tool-box h2 {
-            margin-top: 0;
-            font-size: 1.8rem;
-        }
-
-        .tool-box p {
-            color: var(--text-secondary-color);
-            margin-bottom: 24px;
-        }
-        
-        /* Custom File Input */
-        .file-input-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-            cursor: pointer;
-            padding: 12px 20px;
-            font-size: 1rem;
-            font-weight: 500;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            transition: background-color 0.2s;
-        }
-
-        .file-input-wrapper:hover {
-            background-color: #21262d;
-        }
-        
-        .file-input-wrapper input[type="file"] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        #file-chosen {
-            margin-top: 15px;
-            color: var(--text-secondary-color);
-            font-style: italic;
-        }
-
-        .button {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: #fff;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.2s ease-in-out;
-            margin-top: 20px;
-        }
-
-        .button:hover {
-            background-color: var(--accent-hover-color);
-        }
-        
-        .button:disabled {
-            background-color: var(--text-secondary-color);
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        
-        .button.download-all {
-            background-color: var(--success-color);
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-
-        .button.download-all:hover {
-            background-color: #31b956;
-        }
-
-        .ads-placeholder {
-            background-color: var(--secondary-color);
-            border: 1px dashed var(--border-color);
-            color: var(--text-secondary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 30px auto;
-            min-height: 90px;
-            width: 100%;
-            max-width: 728px;
-            font-size: 0.9rem;
-        }
-
-        #results-section {
-            margin-top: 30px;
-            text-align: left;
-        }
-
-        #results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        #results-header h3 {
-            margin: 0;
-        }
-
-        .result-item {
-            background-color: var(--secondary-color);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-        
-        .result-info {
-            flex-grow: 1;
-        }
-
-        .result-info .filename {
-            font-weight: 600;
-            word-break: break-all;
-        }
-
-        .result-info .size-details {
-            font-size: 0.9rem;
-            color: var(--text-secondary-color);
-            margin-top: 5px;
-        }
-
-        .result-info .reduction {
-            color: var(--success-color);
-            font-weight: bold;
-        }
-        
-        .download-btn {
-            background-color: var(--primary-color);
-            color: var(--text-color);
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            margin-left: 15px;
-            white-space: nowrap;
-        }
-        
-        .download-btn:hover {
-            background-color: #21262d;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 20px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary-color);
-            font-size: 0.9rem;
-        }
-        
-        footer a {
-            color: var(--text-secondary-color);
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-        
-        /* Utility classes */
-        .hidden {
-            display: none !important;
-        }
-
-        @media (max-width: 600px) {
-            .result-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .download-btn {
-                margin-left: 0;
-                margin-top: 15px;
-                width: 100%;
-            }
-            #results-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            #download-all-btn {
-                width: 100%;
-                margin-top: 10px;
-            }
-        }
-    </style>
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1><a href="https://thissupposetobefree.com/">ThisSupposeToBeFree<span>.com</span></a></h1>
+            <h1><a href="/">ThisSupposeToBeFree<span>.com</span></a></h1>
             <p>Because not everything needs a subscription.</p>
         </header>
 
         <main>
+            <!-- New Mission Wall Section -->
+            <section id="mission-wall">
+                <h2>The internet used to be free. Now every click wants your credit card.</h2>
+                <p>We're building the tools that should've stayed free. Submit your "ridiculous paywalled thing"—if it's doable, we'll build it.</p>
+                <a class="button" href="mailto:hello@thissupposetobefree.com?subject=This%20Suppose%20to%20Be%20Free%20Idea">Submit a Request</a>
+            </section>
+        
             <div class="tool-box">
                 <h2>Unlimited Image Converter</h2>
                 <p>Convert JPG, PNG, GIF, and SVG to WebP. Fast, free, and completely private in your browser.</p>
@@ -321,12 +62,15 @@
         </main>
 
         <footer>
-            Built with caffeine &amp; mild rage &copy; 2025 &middot; 
-            <a href="mailto:hello@thissupposetobefree.com">Contact</a>
+            Built with caffeine & mild rage &copy; 2025 &middot; 
+            <a href="mailto:hello@thissupposetobefree.com">Contact</a> &middot;
+            <a href="https://github.com/dunkin-novice/ThisSupposeToBeFree.com" target="_blank" rel="noopener">GitHub</a> &middot;
+            <a href="#" target="_blank" rel="noopener">Buy Me a Coffee</a>
         </footer>
     </div>
 
     <script>
+        // All JavaScript remains the same as it is functionally complete.
         const imageInput = document.getElementById('image-input');
         const convertBtn = document.getElementById('convert-btn');
         const fileChosenText = document.getElementById('file-chosen');
@@ -337,7 +81,6 @@
 
         let convertedFiles = [];
 
-        // Update file count text and button state on file selection
         imageInput.addEventListener('change', () => {
             const numFiles = imageInput.files.length;
             if (numFiles > 0) {
@@ -349,7 +92,6 @@
             }
         });
 
-        // Main conversion logic on button click
         convertBtn.addEventListener('click', async () => {
             const files = imageInput.files;
             if (files.length === 0) {
@@ -357,7 +99,6 @@
                 return;
             }
 
-            // Reset UI
             convertBtn.disabled = true;
             convertBtn.textContent = 'Converting...';
             statusMessage.textContent = 'Processing your images...';
@@ -367,24 +108,17 @@
             convertedFiles = [];
 
             const conversionPromises = Array.from(files).map(file => convertImageToWebP(file));
-
             const results = await Promise.all(conversionPromises);
             
             convertedFiles = results.filter(result => result !== null);
 
             displayResults();
 
-            // Restore button state
             convertBtn.disabled = false;
             convertBtn.textContent = 'Convert to WebP';
             statusMessage.textContent = `✅ Conversion complete! ${convertedFiles.length} out of ${files.length} images converted.`;
         });
         
-        /**
-         * Converts a single image file to a WebP blob.
-         * @param {File} file The image file to convert.
-         * @returns {Promise<Object|null>} A promise that resolves with converted file data or null on error.
-         */
         function convertImageToWebP(file) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -408,9 +142,9 @@
                                     newSize: blob.size,
                                 });
                             } else {
-                                resolve(null); // Could fail for very large images or unsupported formats
+                                resolve(null);
                             }
-                        }, 'image/webp', 0.8); // 0.8 is a good balance for quality/compression
+                        }, 'image/webp', 0.8);
                     };
                     img.onerror = () => {
                         console.error(`Could not load image: ${file.name}`);
@@ -424,9 +158,6 @@
             });
         }
         
-        /**
-         * Renders the conversion results to the page.
-         */
         function displayResults() {
             if (convertedFiles.length === 0) {
                 statusMessage.textContent = 'Could not convert any of the selected files.';
@@ -454,7 +185,6 @@
                 resultsList.appendChild(resultItem);
             });
             
-            // Add event listeners to new download buttons
             document.querySelectorAll('.download-btn').forEach(button => {
                 button.addEventListener('click', (e) => {
                     const index = e.target.getAttribute('data-index');
@@ -469,9 +199,6 @@
             }
         }
         
-        /**
-         * Zips all converted files and triggers a download.
-         */
         downloadAllBtn.addEventListener('click', async () => {
             if (convertedFiles.length <= 1) return;
 
@@ -497,15 +224,6 @@
             }
         });
 
-
-        // --- Helper Functions ---
-
-        /**
-         * Formats file size in bytes to a human-readable string (KB, MB, etc.).
-         * @param {number} bytes The file size in bytes.
-         * @param {number} [decimals=2] The number of decimal places.
-         * @returns {string} The formatted file size.
-         */
         function formatBytes(bytes, decimals = 2) {
             if (bytes === 0) return '0 Bytes';
             const k = 1024;
@@ -515,11 +233,6 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
         }
 
-        /**
-         * Triggers a browser download for a given Blob.
-         * @param {Blob} blob The blob data to download.
-         * @param {string} filename The desired name of the downloaded file.
-         */
         function downloadBlob(blob, filename) {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -530,7 +243,6 @@
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         }
-
     </script>
 </body>
 </html>
