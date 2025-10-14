@@ -88,16 +88,17 @@ body {
 }
 
 
-/* --- DROPDOWN STYLES --- */
+/* --- DROPDOWN STYLES (FIXED) --- */
 .dropdown {
     position: relative;
     display: inline-block;
+    /* This padding creates the invisible bridge to the dropdown menu */
+    padding-bottom: 15px;
+    margin-bottom: -15px;
 }
 
 .dropbtn {
     cursor: pointer;
-    padding-bottom: 15px;
-    margin-bottom: -15px;
 }
 
 .dropdown-content {
@@ -109,7 +110,8 @@ body {
     z-index: 1;
     border: 2px solid var(--border-color);
     border-radius: 6px;
-    margin-top: 10px;
+    /* Positions the dropdown right below the new padded area */
+    top: 100%; 
     left: 50%;
     transform: translateX(-50%);
 }
@@ -132,6 +134,7 @@ body {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+/* --- END FIX --- */
 
 
 .nav-button-submit {
@@ -203,7 +206,6 @@ main {
     box-sizing: border-box;
 }
 
-/* --- FIX: Make secondary button style more general --- */
 .hero-button-secondary {
     background-color: var(--bg-box); /* White */
 }
@@ -211,7 +213,6 @@ main {
 .hero-button-secondary:hover {
     background-color: #f0f0f0; /* Light grey hover */
 }
-/* --- END FIX --- */
 
 
 .info-box {
@@ -328,6 +329,12 @@ main {
 .tool-header h1 {
     font-size: 2.2rem;
     margin-bottom: 10px;
+}
+.tool-header h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #333;
+    margin-top: 0;
 }
 .tool-header p {
     font-size: 1.1rem;
@@ -544,7 +551,8 @@ main {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
-    justify-content.
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 .button.download-all {
     display: block;
