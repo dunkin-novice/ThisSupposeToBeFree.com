@@ -58,7 +58,8 @@ body {
 
 .nav-links {
     display: flex;
-    align-items: center;
+    /* This is the fix: aligns text along the bottom, creating a perfect line */
+    align-items: baseline;
     gap: 20px;
 }
 
@@ -68,8 +69,8 @@ body {
     font-weight: 600;
     font-size: 1rem;
     transition: color 0.2s;
-    position: relative; /* For the underline effect */
-    padding-bottom: 5px; /* Space for the underline */
+    position: relative;
+    padding-bottom: 5px;
 }
 
 .nav-links a::after {
@@ -92,7 +93,6 @@ body {
 .dropdown {
     position: relative;
     display: inline-block;
-    /* This padding creates the invisible bridge to the dropdown menu */
     padding-bottom: 15px;
     margin-bottom: -15px;
 }
@@ -110,7 +110,6 @@ body {
     z-index: 1;
     border: 2px solid var(--border-color);
     border-radius: 6px;
-    /* Positions the dropdown right below the new padded area */
     top: 100%; 
     left: 50%;
     transform: translateX(-50%);
@@ -206,7 +205,6 @@ main {
     box-sizing: border-box;
 }
 
-/* --- This is the fix for the white button --- */
 .button.hero-button-secondary {
     background-color: var(--bg-box); /* White */
 }
