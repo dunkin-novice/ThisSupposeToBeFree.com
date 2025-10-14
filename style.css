@@ -75,7 +75,8 @@ nav { display: flex; align-items: center; }
 .nav-links { display: flex; align-items: center; gap: 30px; }
 .nav-link { font-weight: 500; position: relative; padding-bottom: 5px; }
 .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--accent-pink); transition: width 0.3s ease; }
-.nav-link:hover::after, .nav-link.active::after { width: 100%; }
+/* FIX #2: Removed ".nav-link.active::after" to stop the sticky underline */
+.nav-link:hover::after { width: 100%; }
 .nav-btn { margin-left: 20px; }
 
 /* --- DROPDOWN BEHAVIOR --- */
@@ -164,8 +165,16 @@ li.dropdown:hover .dropdown-content { display: block; }
 /* ------------------- */
 .fade-in { opacity: 0; transform: translateY(20px); animation: fadeInAnimation 0.8s ease-out forwards; }
 @keyframes fadeInAnimation { to { opacity: 1; transform: translateY(0); } }
-.animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-.animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+
+/* FIX #1: Removed "opacity: 0" to make content visible by default */
+.animate-on-scroll {
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 
 /* ------------------- */
