@@ -206,11 +206,12 @@ main {
     box-sizing: border-box;
 }
 
-.hero-button-secondary {
+/* --- This is the fix for the white button --- */
+.button.hero-button-secondary {
     background-color: var(--bg-box); /* White */
 }
 
-.hero-button-secondary:hover {
+.button.hero-button-secondary:hover {
     background-color: #f0f0f0; /* Light grey hover */
 }
 
