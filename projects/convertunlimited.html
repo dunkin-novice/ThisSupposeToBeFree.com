@@ -3,56 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Unlimited Image Converter - Convert to WEBP, JPG, PNG</title>
+    <title>Free Image Converter - Convert to WEBP, JPG, PNG | ThisSupposeToBeFree.com</title>
     <meta name="description" content="A free, unlimited, and private tool to batch convert images to WEBP, JPG, or PNG. Adjust quality, download as a ZIP, and optimize your images for SEO right in your browser.">
     
+    <!-- FAVICON CODE -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <!-- END FAVICON CODE -->
+
     <!-- Google Tag Manager, Analytics, AdSense -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-KTDBRNJJ');</script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVFJ67DGRJ"></script>
     <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-QVFJ67DGRJ'); </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2823470980745945" crossorigin="anonymous"></script>
 
-    <!-- NEW: Schema Markup for this specific tool page -->
+    <!-- Schema Markup for the Converter Tool -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "SoftwareApplication",
-          "@id": "https://thissupposetobefree.com/projects/convertunlimited.html#webapp",
-          "name": "Unlimited Image Converter",
-          "applicationCategory": "MultimediaApplication",
-          "operatingSystem": "Any (Web Browser)",
-          "description": "A free, unlimited, and private tool to batch convert images to WEBP, JPG, or PNG. Adjust quality and download as a ZIP right in your browser.",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-          },
-          "publisher": {
-            "@type": "Organization",
-            "name": "ThisSupposeToBeFree.com"
-          }
-        },
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [{
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://thissupposetobefree.com/"
-          },{
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Projects",
-            "item": "https://thissupposetobefree.com/#projects"
-          },{
-            "@type": "ListItem",
-            "position": 3,
-            "name": "Unlimited Image Converter"
-          }]
-        }
-      ]
+      "@type": "WebApplication",
+      "name": "Unlimited Image Converter",
+      "url": "https://thissupposetobefree.com/projects/convertunlimited.html",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any (Web Browser)",
+      "description": "A free, unlimited, and private tool to batch convert images to WEBP, JPG, or PNG. Adjust quality and download as a ZIP right in your browser.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://thissupposetobefree.com/projects/convertunlimited.html"
+      }
     }
     </script>
 
@@ -83,8 +68,9 @@
     
     <main class="container">
         <div class="tool-header">
-            <h1>Unlimited Image Converter</h1>
-            <p>Batch convert your JPG, PNG, GIF, and SVG images to modern formats like WEBP. All processing happens securely in your browser—no uploads, no limits.</p>
+            <h1>Free & Unlimited Image Converter</h1>
+            <h2>Batch convert to WEBP, JPG, & PNG</h2>
+            <p>Optimize your images for SEO and web performance. Drag and drop your files to start—no uploads, no limits, totally private.</p>
         </div>
 
         <div id="converter-ui">
@@ -112,7 +98,9 @@
                         </select>
                     </div>
                 </div>
-                <p id="png-note" class="hidden">*PNG is a lossless format, so quality settings don't apply.</p>
+                <div id="png-quality-note" class="quality-note hidden">
+                    *PNG is a lossless format; quality adjustment is not applicable.
+                </div>
                 <div>
                     <button id="convert-all-btn" class="button">Convert All</button>
                     <button id="clear-all-btn" class="clear-button">Clear All</button>
@@ -124,11 +112,6 @@
                 Google AdSense Banner (e.g., 728x90)
             </div>
         </div>
-
-        <section class="info-box text-content">
-            <h2>Why Use an Online Image Converter?</h2>
-            <p>Optimizing images is one of the most important steps for improving website speed and SEO. Large image files can slow down your site, leading to a poor user experience and lower rankings in search engines. By converting your images to modern, efficient formats like WebP, or compressing JPEGs, you can significantly reduce file sizes without sacrificing quality. This tool is designed to make that process fast, free, and completely private.</p>
-        </section>
     </main>
      <footer>
         <div class="footer-links">
@@ -144,7 +127,9 @@
             <h2>Drop files anywhere to upload</h2>
        </div>
     </div>
+    <!-- JSZip Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- Converter Logic -->
     <script src="/projects/converter.js"></script>
 </body>
 </html>
