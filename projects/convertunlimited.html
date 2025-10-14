@@ -5,21 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Image Converter - Convert to WEBP, JPG, PNG | ThisSupposeToBeFree.com</title>
     <meta name="description" content="A free, unlimited, and private tool to batch convert images to WEBP, JPG, or PNG. Adjust quality, download as a ZIP, and optimize your images for SEO right in your browser.">
-    
-    <!-- FAVICON CODE -->
+
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <!-- END FAVICON CODE -->
 
-    <!-- Google Tag Manager, Analytics, AdSense -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/style.css">
+
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-KTDBRNJJ');</script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVFJ67DGRJ"></script>
     <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-QVFJ67DGRJ'); </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2823470980745945" crossorigin="anonymous"></script>
 
-    <!-- Schema Markup for the Converter Tool -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -29,56 +31,46 @@
       "applicationCategory": "MultimediaApplication",
       "operatingSystem": "Any (Web Browser)",
       "description": "A free, unlimited, and private tool to batch convert images to WEBP, JPG, or PNG. Adjust quality and download as a ZIP right in your browser.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://thissupposetobefree.com/projects/convertunlimited.html"
-      }
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://thissupposetobefree.com/projects/convertunlimited.html" }
     }
     </script>
-
-    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTDBRNJJ"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTDBRNJJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="nav-logo">ThisSupposeToBeFree<span>.com</span></a>
-            <div class="nav-links">
-                <a href="/">Home</a>
-                <div class="dropdown">
-                    <a href="#" class="dropbtn">Projects ▼</a>
-                    <div class="dropdown-content">
-                        <a href="/projects/convertunlimited.html">Image Converter</a>
-                    </div>
-                </div>
-                <a href="/about.html">About Me</a>
-                <a href="mailto:hello@thissupposetobefree.com?subject=This%20Suppose%20to%20Be%20Free%20Idea" class="nav-button-submit">Submit Request</a>
-            </div>
+    <header class="navbar">
+        <div class="container">
+            <a href="/" class="logo">ThisSupposeToBeFree<span class="logo-com">.com</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link active">Projects ▼</a>
+                        <div class="dropdown-content">
+                            <a href="/projects/convertunlimited.html">Image Converter</a>
+                        </div>
+                    </li>
+                    <li><a href="/about.html" class="nav-link">About Me</a></li>
+                </ul>
+                <a href="mailto:hello@thissupposetobefree.com?subject=This%20Suppose%20to%20Be%20Free%20Idea" class="btn btn-primary nav-btn">Submit Request</a>
+            </nav>
         </div>
-    </nav>
-    
-    <main class="container">
-        <div class="tool-header">
+    </header>
+
+    <main class="container tool-container">
+        <div class="section-header tool-header">
             <h1>Free & Unlimited Image Converter</h1>
-            <h2>Batch convert to WEBP, JPG, & PNG</h2>
-            <p>Optimize your images for SEO and web performance. Drag and drop your files to start—no uploads, no limits, totally private.</p>
+            <p>Batch convert to WEBP, JPG, & PNG. Drag and drop your files to start—no uploads, no limits, totally private.</p>
         </div>
 
         <div id="converter-ui">
             <div id="upload-box">
                 <input type="file" id="image-input" hidden multiple accept="image/jpeg,image/png,image/gif,image/svg+xml">
-                <span class="upload-label">Drag & drop your images here, or click to select files</span>
+                <span class="upload-label">Drag & drop images here, or click to select files</span>
             </div>
-            <div id="controls" class="hidden">
+
+            <div id="controls" class="card hidden">
                 <div class="controls-wrapper">
                     <div class="control-group">
                         <label for="format-select">Convert to:</label>
@@ -99,38 +91,44 @@
                     </div>
                 </div>
                 <div id="png-quality-note" class="quality-note hidden">
-                    *PNG is a lossless format; quality adjustment is not applicable.
+                    *PNG is lossless; quality adjustment is not applicable.
                 </div>
                 <div>
-                    <button id="convert-all-btn" class="button">Convert All</button>
-                    <button id="clear-all-btn" class="clear-button">Clear All</button>
+                    <button id="convert-all-btn" class="btn btn-primary">Convert All</button>
+                    <button id="clear-all-btn" class="btn btn-clear">Clear All</button>
                 </div>
             </div>
+
             <div id="preview-grid"></div>
             <p id="status-message"></p>
+
             <div class="ads-placeholder">
                 Google AdSense Banner (e.g., 728x90)
             </div>
         </div>
     </main>
-     <footer>
-        <div class="footer-links">
-            <span>Inspired by John Sorrentino (Favicon.io) &middot; Built with caffeine & mild rage &copy; 2025</span>
-            <a href="mailto:hello@thissupposetobefree.com">Contact</a>
-            <a href="https://github.com/dunkin-novice/ThisSupposeToBeFree.com" target="_blank" rel="noopener">GitHub</a>
-            <a href="/privacy.html">Privacy Policy</a>
-            <a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener">Buy Me a Coffee</a>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>Inspired by John Sorrentino (Favicon.io) · Built with caffeine & mild rage © 2025</p>
+                <ul class="footer-links">
+                    <li><a href="mailto:hello@thissupposetobefree.com">Contact</a></li>
+                    <li><a href="https://github.com/dunkin-novice/ThisSupposeToBeFree.com" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="/privacy.html">Privacy Policy</a></li>
+                    <li><a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener">Buy Me a Coffee</a></li>
+                </ul>
+            </div>
         </div>
     </footer>
+
     <div id="drag-overlay" class="hidden">
        <div class="drag-overlay-content">
-            <h2>Drop files anywhere to upload</h2>
+           <h2>Drop files anywhere to start</h2>
        </div>
     </div>
-    <!-- JSZip Library -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <!-- Converter Logic -->
     <script src="/projects/converter.js"></script>
 </body>
 </html>
-
