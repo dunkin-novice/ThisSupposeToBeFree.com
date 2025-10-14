@@ -10,7 +10,7 @@ const dragOverlay = document.getElementById('drag-overlay');
 const formatSelect = document.getElementById('format-select');
 const qualityControlGroup = document.getElementById('quality-control-group');
 const qualitySelect = document.getElementById('quality-select');
-const pngNote = document.getElementById('png-note'); // New note element
+const pngNote = document.getElementById('png-quality-note'); // Corrected from png-note
 
 // --- State Management ---
 let isConverting = false;
@@ -83,7 +83,7 @@ function createImagePreview(file) {
             <p class="filesize">${formatBytes(file.size)}</p>
         </div>
         <div class="card-footer">
-            <button class="button single-convert-btn">Convert</button>
+            <button class="btn btn-primary single-convert-btn">Convert</button>
         </div>
     `;
 
@@ -180,15 +180,14 @@ async function handleConvertAll() {
 
 function checkAndEnableDownloadAll() {
     const successfulConversions = filesToProcess.filter(f => f.converted);
-    const pendingConversions = filesToProcess.filter(f => f.dataset.status === 'pending' || f.dataset.status === 'converting' ).length;
-    
     const allCards = previewGrid.querySelectorAll('.preview-card');
     const pendingCards = Array.from(allCards).filter(card => card.dataset.status === 'pending');
 
     if (successfulConversions.length > 0 && pendingCards.length === 0) {
         convertAllBtn.textContent = `Download All (${successfulConversions.length}) as ZIP`;
         convertAllBtn.onclick = handleDownloadAll;
-        convertAllBtn.classList.add('download-all');
+        convertAllBtn.classList.add('btn-success');
+        convertAllBtn.classList.remove('btn-primary');
     }
 }
 
@@ -277,7 +276,8 @@ function updateUI() {
     
     const format = formatSelect.value.toUpperCase();
     convertAllBtn.textContent = `Convert All to ${format}`;
-    convertAllBtn.classList.remove('download-all');
+    convertAllBtn.classList.remove('btn-success');
+    convertAllBtn.classList.add('btn-primary');
     convertAllBtn.onclick = handleConvertAll;
     
     convertAllBtn.disabled = isConverting;
@@ -286,8 +286,7 @@ function updateUI() {
     qualitySelect.disabled = isConverting;
     
     qualityControlGroup.classList.toggle('disabled', formatSelect.value === 'png' || isConverting);
-    // New: Show/hide the PNG note
-    pngNote.classList.toggle('hidden', formatSelect.value !== 'png' || isConverting);
+    pngNote.classList.toggle('hidden', formatSelect.value !== 'png');
 
 
     if (isConverting) {
@@ -295,7 +294,7 @@ function updateUI() {
     } else if (hasFiles) {
         const convertedCount = filesToProcess.filter(f => f.converted).length;
         if (convertedCount > 0) {
-            statusMessage.textContent = `${convertedCount} file(s) converted.`;
+            statusMessage.textContent = `${convertedCount} file(s) converted. Ready to download.`;
         } else {
             statusMessage.textContent = '';
         }
@@ -316,13 +315,13 @@ function updateCardUI(card) {
 
     switch (status) {
         case 'pending':
-            footerHTML = `<button class="button single-convert-btn">Convert</button>`;
+            footerHTML = `<button class="btn btn-primary single-convert-btn">Convert</button>`;
             break;
         case 'converting':
             footerHTML = `<p class="card-status">Converting...</p>`;
             break;
         case 'success':
-            footerHTML = `<a href="${URL.createObjectURL(fileData.converted.blob)}" download="${fileData.converted.name}" class="button single-download-link">Download (${formatBytes(fileData.converted.size)})</a>`;
+            footerHTML = `<a href="${URL.createObjectURL(fileData.converted.blob)}" download="${fileData.converted.name}" class="btn btn-success single-download-link">Download (${formatBytes(fileData.converted.size)})</a>`;
             break;
         case 'error':
             footerHTML = `<p class="card-status error">Failed!</p>`;
@@ -360,4 +359,3 @@ function downloadBlob(blob, filename) {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
-
