@@ -68,11 +68,25 @@ body {
     font-weight: 600;
     font-size: 1rem;
     transition: color 0.2s;
+    position: relative; /* For the underline effect */
+    padding-bottom: 5px; /* Space for the underline */
 }
 
-.nav-links a:hover {
-    color: #555;
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--text-color);
+    transition: width 0.3s ease-in-out;
 }
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
 
 /* --- DROPDOWN STYLES --- */
 .dropdown {
@@ -108,6 +122,9 @@ body {
     font-weight: 600;
 }
 
+.dropdown-content a:hover::after {
+    width: 0;
+}
 .dropdown-content a:hover {
     background-color: #f1f1f1;
 }
@@ -124,6 +141,10 @@ body {
     border-radius: 6px;
     box-shadow: 3px 3px 0 0 var(--border-color);
     transition: all 0.2s;
+}
+
+.nav-button-submit:hover::after {
+    width: 0;
 }
 .nav-button-submit:hover {
     transform: translate(1px, 1px);
@@ -167,7 +188,6 @@ main {
     margin: 0 auto 25px auto;
 }
 
-/* --- NEW STYLES FOR HERO BUTTONS --- */
 .hero-buttons {
     display: flex;
     flex-direction: column;
@@ -183,6 +203,7 @@ main {
     box-sizing: border-box;
 }
 
+/* --- FIX: Make secondary button style more general --- */
 .hero-button-secondary {
     background-color: var(--bg-box); /* White */
 }
@@ -190,7 +211,8 @@ main {
 .hero-button-secondary:hover {
     background-color: #f0f0f0; /* Light grey hover */
 }
-/* --- END NEW STYLES --- */
+/* --- END FIX --- */
+
 
 .info-box {
     background-color: var(--bg-box);
@@ -203,6 +225,9 @@ main {
 .info-box.cta-box {
     background-color: #fff;
     border: 2px solid var(--border-color);
+}
+.info-box.text-content {
+    text-align: left;
 }
 
 
@@ -395,6 +420,12 @@ main {
 .control-group.disabled {
     opacity: 0.5;
 }
+.quality-note {
+    font-size: 0.8rem;
+    color: #555;
+    margin-top: -15px;
+    margin-bottom: 10px;
+}
 
 #preview-grid {
     display: grid;
@@ -453,11 +484,17 @@ main {
 
 .card-footer {
     padding: 10px;
-    border-top: 2px solid #f0f0f0;
+    border-top: 1px solid #eee;
+    margin-top: auto;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .single-convert-btn, .single-download-link {
     width: 100%;
+    box-sizing: border-box;
     padding: 10px;
     font-size: 0.9rem;
     margin: 0;
@@ -507,8 +544,7 @@ main {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    justify-content.
 }
 .button.download-all {
     display: block;
@@ -536,8 +572,6 @@ main {
     max-width: 728px;
     font-size: 0.9rem;
 }
-
-/* --- UPDATED FOOTER STYLES --- */
 footer {
     text-align: center;
     padding: 40px 20px 20px 20px;
