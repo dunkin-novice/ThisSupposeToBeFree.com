@@ -167,7 +167,7 @@ main {
     margin: 0 auto 25px auto;
 }
 
-/* --- NEW BUTTON CONTAINER STYLES --- */
+/* --- NEW STYLES FOR HERO BUTTONS --- */
 .hero-buttons {
     display: flex;
     flex-direction: column;
@@ -179,17 +179,16 @@ main {
     font-size: 1.2rem;
     padding: 14px 28px;
     width: 100%;
-    max-width: 300px;
+    max-width: 300px; /* Or adjust as needed */
     box-sizing: border-box;
 }
 
 .hero-button-secondary {
-    font-size: 1.2rem;
-    padding: 14px 28px;
-    width: 100%;
-    max-width: 300px;
-    box-sizing: border-box;
-    background-color: var(--bg-box); /* White background */
+    background-color: var(--bg-box); /* White */
+}
+
+.hero-button-secondary:hover {
+    background-color: #f0f0f0; /* Light grey hover */
 }
 /* --- END NEW STYLES --- */
 
@@ -204,9 +203,6 @@ main {
 .info-box.cta-box {
     background-color: #fff;
     border: 2px solid var(--border-color);
-}
-.info-box.text-content {
-    text-align: left;
 }
 
 
@@ -399,12 +395,6 @@ main {
 .control-group.disabled {
     opacity: 0.5;
 }
-#png-note {
-    font-size: 0.9rem;
-    color: #555;
-    margin-top: -10px;
-    margin-bottom: 15px;
-}
 
 #preview-grid {
     display: grid;
@@ -448,10 +438,6 @@ main {
     padding: 10px;
     font-size: 0.9rem;
     flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 60px;
 }
 .filename {
     font-weight: 600;
@@ -475,7 +461,6 @@ main {
     padding: 10px;
     font-size: 0.9rem;
     margin: 0;
-    box-sizing: border-box;
 }
 
 .single-download-link {
@@ -551,21 +536,21 @@ main {
     max-width: 728px;
     font-size: 0.9rem;
 }
+
+/* --- UPDATED FOOTER STYLES --- */
 footer {
     text-align: center;
-    padding: 40px 0 20px 0;
+    padding: 40px 20px 20px 20px;
     margin-top: 20px;
+    font-size: 0.9rem;
 }
-
 .footer-links {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 5px 15px;
-    font-size: 0.9rem;
     color: var(--text-color);
 }
-
 .footer-links a {
     color: var(--text-color);
     font-weight: 600;
