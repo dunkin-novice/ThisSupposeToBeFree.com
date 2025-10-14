@@ -5,21 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Me | ThisSupposeToBeFree.com</title>
     <meta name="description" content="The story behind ThisSupposeToBeFree.com - a project born out of frustration with paywalls and a passion for building genuinely free internet tools.">
-    
-    <!-- FAVICON CODE -->
+
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
-    <!-- END FAVICON CODE -->
 
-    <!-- Google Tag Manager, Analytics, AdSense -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/style.css">
+
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-KTDBRNJJ');</script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVFJ67DGRJ"></script>
     <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-QVFJ67DGRJ'); </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2823470980745945" crossorigin="anonymous"></script>
 
-    <!-- Schema Markup for the About page -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -27,69 +29,67 @@
       "mainEntity": {
         "@type": "Person",
         "name": "The Founder",
-        "jobTitle": "Marketing Guy & Creator",
-        "description": "The creator of ThisSupposeToBeFree.com, a marketing professional who got tired of paywalls and decided to build free tools for everyone.",
+        "jobTitle": "Creator",
+        "description": "The creator of ThisSupposeToBeFree.com, who got tired of paywalls and decided to build free tools for everyone.",
         "url": "https://thissupposetobefree.com/about.html",
         "sameAs": [
           "https://www.buymeacoffee.com/dunkinkr",
           "https://github.com/dunkin-novice/ThisSupposeToBeFree.com"
         ]
       },
-      "publisher": {
-        "@type": "Organization",
-        "name": "ThisSupposeToBeFree.com"
-      }
+      "publisher": { "@type": "Organization", "name": "ThisSupposeToBeFree.com" }
     }
     </script>
-
-    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTDBRNJJ"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTDBRNJJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="/" class="nav-logo">ThisSupposeToBeFree<span>.com</span></a>
-            <div class="nav-links">
-                <a href="/">Home</a>
-                <div class="dropdown">
-                    <a href="#" class="dropbtn">Projects ▼</a>
-                    <div class="dropdown-content">
-                        <a href="/projects/convertunlimited.html">Image Converter</a>
-                    </div>
-                </div>
-                <a href="/about.html">About Me</a>
-                <a href="mailto:hello@thissupposetobefree.com?subject=This%20Suppose%20to%20Be%20Free%20Idea" class="nav-button-submit">Submit Request</a>
+    <header class="navbar">
+        <div class="container">
+            <a href="/" class="logo">ThisSupposeToBeFree<span class="logo-com">.com</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link">Home</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link">Projects ▼</a>
+                        <div class="dropdown-content">
+                            <a href="/projects/convertunlimited.html">Image Converter</a>
+                        </div>
+                    </li>
+                    <li><a href="/about.html" class="nav-link active">About Me</a></li>
+                </ul>
+                <a href="mailto:hello@thissupposetobefree.com?subject=This%20Suppose%20to%20Be%20Free%20Idea" class="btn btn-primary nav-btn">Submit Request</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container content-container">
+        <div class="card content-card text-center">
+            <h1>The Story So Far...</h1>
+            <p>I was just trying to optimize images for SEO — simple stuff. But every site I found either limited me or threw a paywall in my face. Eventually, I realized most of it could be done for free, right in your browser.</p>
+            <p>So I built my own tool… and it actually worked. That’s when I thought, why not share it? Let’s annoy the people who once annoyed us — and maybe make a little pocket money along the way.</p>
+            <p>And who knows — if more of us start building out of frustration, maybe we can make the internet a little more fun again. Paying for good software is fair, but come on… image converters? That stuff should’ve been free ages ago.</p>
+        </div>
+
+        <div class="card content-card text-center cta-card">
+            <h2>My Road to a Million</h2>
+            <p>Is this project a get-rich-quick scheme? Probably not. But is it a step towards building something cool, helping people out, and maybe one day hitting that milestone? Absolutely. Your support helps turn that dream into a plan.</p>
+            <a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener" class="btn btn-secondary">Support the Journey</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>Inspired by John Sorrentino (Favicon.io) · Built with caffeine & mild rage © 2025</p>
+                <ul class="footer-links">
+                    <li><a href="mailto:hello@thissupposetobefree.com">Contact</a></li>
+                    <li><a href="https://github.com/dunkin-novice/ThisSupposeToBeFree.com" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="/privacy.html">Privacy Policy</a></li>
+                    <li><a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener">Buy Me a Coffee</a></li>
+                </ul>
             </div>
         </div>
-    </nav>
-    <div class="container">
-        <main>
-            <section class="info-box text-content">
-                <h2>The Story So Far...</h2>
-                <p>I was just trying to optimize images for SEO — simple stuff. But every site I found either limited me or threw a paywall in my face. Eventually, I realized most of it could be done for free, right in your browser.</p>
-                <p>So I built my own tool… and it actually worked. That’s when I thought, why not share it? Let’s annoy the people who once annoyed us — and maybe make a little pocket money along the way.</p>
-                <p>And who knows — if more of us start building out of frustration, maybe we can make the internet a little more fun again. Paying for good software is fair, but come on… image converters? That stuff should’ve been free ages ago.</p>
-            </section>
-            <section class="info-box cta-box">
-                <h2>My Road to a Million</h2>
-                <p>Is this project a get-rich-quick scheme? Probably not. But is it a step towards building something cool, helping people out, and maybe one day hitting that millionaire milestone? Absolutely. Your support helps turn that dream into a plan.</p>
-                <a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener" class="button hero-button hero-button-secondary">Support the Journey</a>
-            </section>
-        </main>
-        <footer>
-            <div class="footer-links">
-                <span>Inspired by John Sorrentino (Favicon.io) &middot; Built with caffeine & mild rage &copy; 2025</span>
-                <a href="mailto:hello@thissupposetobefree.com">Contact</a>
-                <a href="https://github.com/dunkin-novice/ThisSupposeToBeFree.com" target="_blank" rel="noopener">GitHub</a>
-                <a href="/privacy.html">Privacy Policy</a>
-                <a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener">Buy Me a Coffee</a>
-            </div>
-        </footer>
-    </div>
+    </footer>
 </body>
 </html>
-
