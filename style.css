@@ -306,13 +306,15 @@ a:hover {
 }
 .shoutout-card {
     background: #fff;
-    padding: 1rem;
+    padding: 1.5rem;
     text-align: center;
+    max-width: 400px; /* Prevents card from being too wide */
+    margin: 0 auto; /* Centers the card in the grid cell */
 }
-.shoutout-card img {
-    height: 40px;
+.shoutout-card h3 {
     margin-bottom: 0.5rem;
 }
+
 
 /* About/Privacy Page */
 .page-header {
