@@ -70,6 +70,12 @@ section:last-of-type {
   border-bottom: none;
 }
 
+/* FIX: Reduce padding for ad placeholder to remove gap */
+.ad-placeholder {
+    padding: 2rem 0;
+}
+
+
 /* ------------------------------ */
 /* 3. Typography & Links          */
 /* ------------------------------ */
@@ -97,6 +103,15 @@ a {
 
 a:hover {
   color: var(--accent-primary);
+}
+
+/* NEW: Affiliate disclosure styling */
+.affiliate-disclosure {
+    text-align: center;
+    font-size: 0.9rem;
+    font-style: italic;
+    max-width: 100%;
+    margin-bottom: 2rem;
 }
 
 /* ------------------------------ */
@@ -161,6 +176,9 @@ a:hover {
   box-shadow: 0 2px 8px var(--shadow-color);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .card:hover {
@@ -171,6 +189,16 @@ a:hover {
 .card h3 {
   margin-top: 0;
 }
+
+/* NEW: Make cards wrapped in links work correctly */
+.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+.card-link:hover {
+    color: inherit; /* Prevent text color change on hover */
+}
+
 
 /* Grids */
 .grid {
