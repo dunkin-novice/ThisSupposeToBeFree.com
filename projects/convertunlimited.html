@@ -3,95 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Unlimited Image Converter | ThisSupposeToBeFree.com</title>
-    <meta name="description" content="A free, client-side tool to convert JPG, PNG, GIF, and SVG files to WebP, JPEG, or PNG with no limits. Batch convert and download as a ZIP.">
-    <link rel="stylesheet" href="/style.css">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
-    
-    <script type="application/ld+json" id="schema-markup">
+    <title>Free Unlimited Image Converter | This Suppose To Be Free</title>
+    <meta name="description" content="Convert images to JPG, PNG, WEBP, and more for free. No uploads, no limits. Your files are processed locally in your browser for 100% privacy.">
+    <link rel="stylesheet" href="../style.css">
+    <script id="schema-json" type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": "Unlimited Image Converter",
-      "description": "A free, client-side tool to convert JPG, PNG, GIF, and SVG files to WebP, JPEG, or PNG with no limits. Batch convert and download as a ZIP.",
+      "name": "Free Unlimited Image Converter",
+      "operatingSystem": "Any (Web Browser)",
       "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "Any (Web-based)",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
-      "url": "https://www.thissupposetobefree.com/projects/convertunlimited.html",
-      "author": {
-        "@type": "Person",
-        "name": "Kitikorn"
-      },
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "https://www.thissupposetobefree.com/projects/convertunlimited.html"
-      }
+      "description": "A free, browser-based tool to convert images between various formats like JPG, PNG, and WEBP without uploading files to a server."
     }
     </script>
 </head>
 <body>
-    <div id="navbar-placeholder"></div>
+    <header id="navbar-placeholder"></header>
 
-    <main class="container page-content">
-        <header>
-            <h1 id="main-heading">Unlimited Image Converter</h1>
-            <p>The free and unlimited image converter that respects your workflow. <br>Convert JPG, PNG, GIF, and SVG files without restrictions.</p>
-        </header>
-
-        <div id="output-options">
-            <div class="option-group">
-                <label>Convert to:</label>
-                <select id="format-select">
-                    <option value="webp" selected>WebP</option>
-                    <option value="png">PNG</option>
-                    <option value="jpeg">JPEG</option>
-                </select>
-            </div>
-            <div class="option-group" id="quality-control">
-                <label>Quality:</label>
-                <select id="quality-select">
-                    <option value="1.0">Similar to Original</option>
-                    <option value="0.9">Little Compression</option>
-                    <option value="0.75" selected>Recommended</option>
-                    <option value="0.5">Best Compression</option>
-                </select>
-            </div>
-        </div>
-        
-        <div id="upload-area">
-            <p>Drag & drop your images here, or click to select files</p>
-            <input type="file" id="file-input" multiple accept=".jpg, .jpeg, .png, .gif, .svg">
-        </div>
-
-        <div id="results-area" class="hidden">
-            <div id="controls">
-                <button id="convert-all-btn">Convert All to WebP</button>
-                <button id="clear-all-btn">Clear All</button>
+    <main class="main-content">
+        <div class="container">
+            <div class="tool-header">
+                <h1>Convert Images Without Limits</h1>
+                <p>Fast, free, privacy-safe conversion right in your browser.</p>
             </div>
 
-            <div id="ad-container">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                     data-ad-slot="YOUR_AD_SLOT_ID"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
+            <div id="upload-area">
+                <div id="drag-overlay">
+                    <p>Drop Files Anywhere!</p>
+                </div>
+                <p>Drag & drop files here, or</p>
+                <label for="file-input" class="btn btn-primary">Choose Files</label>
+                <input type="file" id="file-input" multiple hidden>
             </div>
-    
-            <div id="image-previews"></div>
+
+            <div class="controls-section" id="controls-area" style="display: none;">
+                <div class="controls-grid">
+                    <div>
+                        <label for="format-select">Convert to:</label>
+                        <select id="format-select">
+                            <option value="png">PNG</option>
+                            <option value="jpeg">JPEG</option>
+                            <option value="webp">WEBP</option>
+                            <option value="gif">GIF</option>
+                        </select>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="convert-btn" class="btn btn-primary">Convert All</button>
+                        <button id="clear-btn" class="btn btn-secondary">Clear All</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="file-list-container">
+                <ul id="file-list"></ul>
+            </div>
+
+            <p class="privacy-note">🛡️ Everything runs locally in your browser. No uploads, no tracking, no limits.</p>
         </div>
     </main>
-
-    <div id="footer-placeholder"></div>
-    <div id="drag-overlay" class="hidden"><p>Drop your files anywhere to upload</p></div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="/converter.js"></script>
-    <script src="/main.js"></script>
+    
+    <footer id="footer-placeholder"></footer>
+    <script src="../main.js"></script>
+    <script src="converter.js"></script>
 </body>
 </html>
