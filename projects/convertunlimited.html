@@ -3,132 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Image Converter - Convert to WEBP, JPG, PNG | ThisSupposeToBeFree.com</title>
-    <meta name="description" content="A free, unlimited, and private tool to batch convert images to WEBP, JPG, or PNG. Adjust quality, download as a ZIP, and optimize your images for SEO right in your browser.">
-
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-
+    <title>Free Unlimited Image Converter | ThisSupposeToBeFree.com</title>
+    <meta name="description" content="A free, client-side tool to convert JPG, PNG, GIF, and SVG files to WebP, JPEG, or PNG with no limits. Batch convert and download as a ZIP.">
     <link rel="stylesheet" href="/style.css">
-
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-KTDBRNJJ');</script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QVFJ67DGRJ"></script>
-    <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-QVFJ67DGRJ'); </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2823470980745945" crossorigin="anonymous"></script>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "Unlimited Image Converter",
-      "url": "https://thissupposetobefree.com/projects/convertunlimited.html",
-      "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "Any (Web Browser)",
-      "description": "A free, unlimited, and private tool to batch convert images to WEBP, JPG, or PNG. Adjust quality and download as a ZIP right in your browser.",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://thissupposetobefree.com/projects/convertunlimited.html" }
-    }
-    </script>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTDBRNJJ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div id="navbar-placeholder"></div>
 
-    <header class="navbar">
-        <div class="container">
-            <a href="/" class="logo">ThisSupposeToBeFree<span class="logo-com">.com</span></a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="/" class="nav-link">Home</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="nav-link active">Projects ▼</a>
-                        <div class="dropdown-content">
-                            <a href="/projects/convertunlimited.html">Image Converter</a>
-                        </div>
-                    </li>
-                    <li><a href="/about.html" class="nav-link">About Me</a></li>
-                </ul>
-                <a href="mailto:hello@thissupposetobefree.com?subject=This%20Suppose%20to%20Be%20Free%20Idea" class="btn btn-primary nav-btn">Submit Request</a>
-            </nav>
+    <main class="container page-content">
+        <header>
+            <h1 id="main-heading">Unlimited Image Converter</h1>
+            <p>The free and unlimited image converter that respects your workflow. <br>Convert JPG, PNG, GIF, and SVG files without restrictions.</p>
+        </header>
+
+        <div id="output-options">
+            <div class="option-group">
+                <label>Convert to:</label>
+                <select id="format-select">
+                    <option value="webp" selected>WebP</option>
+                    <option value="png">PNG</option>
+                    <option value="jpeg">JPEG</option>
+                </select>
+            </div>
+            <div class="option-group" id="quality-control">
+                <label>Quality:</label>
+                <select id="quality-select">
+                    <option value="1.0">Similar to Original</option>
+                    <option value="0.9">Little Compression</option>
+                    <option value="0.75" selected>Recommended</option>
+                    <option value="0.5">Best Compression</option>
+                </select>
+            </div>
         </div>
-    </header>
-
-    <main class="container tool-container">
-        <div class="section-header tool-header">
-            <h1>Free & Unlimited Image Converter</h1>
-            <p>Batch convert to WEBP, JPG, & PNG. Drag and drop your files to start—no uploads, no limits, totally private.</p>
+        
+        <div id="upload-area">
+            <p>Drag & drop your images here, or click to select files</p>
+            <input type="file" id="file-input" multiple accept=".jpg, .jpeg, .png, .gif, .svg">
         </div>
 
-        <div id="converter-ui">
-            <div id="upload-box">
-                <input type="file" id="image-input" hidden multiple accept="image/jpeg,image/png,image/gif,image/svg+xml">
-                <span class="upload-label">Drag & drop images here, or click to select files</span>
+        <div id="results-area" class="hidden">
+            <div id="controls">
+                <button id="convert-all-btn">Convert All to WebP</button>
+                <button id="clear-all-btn">Clear All</button>
             </div>
 
-            <div id="controls" class="card hidden">
-                <div class="controls-wrapper">
-                    <div class="control-group">
-                        <label for="format-select">Convert to:</label>
-                        <select id="format-select" class="dropdown-select">
-                            <option value="webp" selected>WebP</option>
-                            <option value="jpg">JPG</option>
-                            <option value="png">PNG</option>
-                        </select>
-                    </div>
-                    <div id="quality-control-group" class="control-group">
-                        <label for="quality-select">Quality:</label>
-                        <select id="quality-select" class="dropdown-select">
-                            <option value="0.95">Keep Original</option>
-                            <option value="0.85">Less Compression</option>
-                            <option value="0.75" selected>Recommended</option>
-                            <option value="0.5">Best Compression</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="png-quality-note" class="quality-note hidden">
-                    *PNG is lossless; quality adjustment is not applicable.
-                </div>
-                <div>
-                    <button id="convert-all-btn" class="btn btn-primary">Convert All</button>
-                    <button id="clear-all-btn" class="btn btn-clear">Clear All</button>
-                </div>
+            <div id="ad-container">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
             </div>
-
-            <div id="preview-grid"></div>
-            <p id="status-message"></p>
-
-            <div class="ads-placeholder">
-                Google AdSense Banner (e.g., 728x90)
-            </div>
+    
+            <div id="image-previews"></div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p>Inspired by John Sorrentino (Favicon.io) · Built with caffeine & mild rage © 2025</p>
-                <ul class="footer-links">
-                    <li><a href="mailto:hello@thissupposetobefree.com">Contact</a></li>
-                    <li><a href="https://github.com/dunkin-novice/ThisSupposeToBeFree.com" target="_blank" rel="noopener">GitHub</a></li>
-                    <li><a href="/privacy.html">Privacy Policy</a></li>
-                    <li><a href="https://www.buymeacoffee.com/dunkinkr" target="_blank" rel="noopener">Buy Me a Coffee</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-
-    <div id="drag-overlay" class="hidden">
-       <div class="drag-overlay-content">
-           <h2>Drop files anywhere to start</h2>
-       </div>
-    </div>
+    <div id="footer-placeholder"></div>
+    <div id="drag-overlay" class="hidden"><p>Drop your files anywhere to upload</p></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="/projects/converter.js"></script>
-</body>
+    <script src="/script.js"></script> <script src="/main.js"></script> </body>
 </html>
