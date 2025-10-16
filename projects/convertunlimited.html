@@ -28,7 +28,8 @@
     <header id="navbar-placeholder"></header>
 
     <main class="main-content">
-        <div id="drag-overlay"> <p>Drop Files Anywhere!</p>
+        <div id="drag-overlay">
+            <p>Drop Files Anywhere!</p>
         </div>
         <div class="container">
             <div class="tool-header">
@@ -51,6 +52,15 @@
                             <option value="jpeg">JPEG</option>
                             <option value="webp">WEBP</option>
                             <option value="gif">GIF</option>
+                        </select>
+                    </div>
+                    <div id="quality-control">
+                        <label for="quality-select">Compression:</label>
+                        <select id="quality-select">
+                            <option value="original">Original</option>
+                            <option value="less">Less Compress</option>
+                            <option value="recommended" selected>Recommended</option>
+                            <option value="best">Best Compress</option>
                         </select>
                     </div>
                     <div class="action-buttons">
