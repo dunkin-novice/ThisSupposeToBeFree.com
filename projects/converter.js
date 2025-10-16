@@ -9,22 +9,22 @@ if (document.getElementById('upload-area')) {
     const convertBtn = document.getElementById('convert-btn');
     const clearBtn = document.getElementById('clear-btn');
     const controlsArea = document.getElementById('controls-area');
+    const formatSelect = document.getElementById('format-select');
     
     // --- State Management ---
-    // MODIFIED: We now use an array of objects to track each file's status
     let filesToProcess = [];
     let dragCounter = 0;
-    let isBatchConverting = false; // Flag for the "Convert All" button
+    let isBatchConverting = false;
     
-    // --- Drag and Drop Handlers ---
-    uploadArea.addEventListener('dragenter', (e) => {
+    // --- GLOBAL DRAG AND DROP HANDLERS (Attached to the window) ---
+    window.addEventListener('dragenter', (e) => {
         e.preventDefault();
         e.stopPropagation();
         dragCounter++;
         dragOverlay.classList.add('visible');
     });
 
-    uploadArea.addEventListener('dragleave', (e) => {
+    window.addEventListener('dragleave', (e) => {
         e.preventDefault();
         e.stopPropagation();
         dragCounter--;
@@ -33,12 +33,12 @@ if (document.getElementById('upload-area')) {
         }
     });
 
-    uploadArea.addEventListener('dragover', (e) => {
+    window.addEventListener('dragover', (e) => {
         e.preventDefault();
-        e.stopPropagation();
+        e.stopPropagation(); // Necessary to allow drop globally
     });
 
-    uploadArea.addEventListener('drop', (e) => {
+    window.addEventListener('drop', (e) => {
         e.preventDefault();
         e.stopPropagation();
         dragCounter = 0;
@@ -56,13 +56,11 @@ if (document.getElementById('upload-area')) {
         if (isBatchConverting) return;
         
         [...newFiles].forEach(file => {
-            // Avoid duplicates
             if (!filesToProcess.some(f => f.file.name === file.name && f.file.size === file.size)) {
-                // MODIFIED: Create a stateful object for each file
                 const fileObject = {
-                    id: `file-${Date.now()}-${Math.random()}`, // Unique ID for each file
+                    id: `file-${Date.now()}-${Math.random()}`,
                     file: file,
-                    status: 'pending', // 'pending', 'converting', 'done', 'error'
+                    status: 'pending',
                     convertedData: null,
                 };
                 filesToProcess.push(fileObject);
@@ -74,15 +72,13 @@ if (document.getElementById('upload-area')) {
 
     // --- UI Rendering ---
     function renderFileList() {
-        fileList.innerHTML = ''; // Clear existing list
+        fileList.innerHTML = '';
         filesToProcess.forEach((item) => {
             const li = document.createElement('li');
-            li.dataset.id = item.id; // Set ID on the list item for easy access
-
+            li.dataset.id = item.id;
             const originalSize = (item.file.size / 1024).toFixed(1);
             let actionButtonHtml = '';
 
-            // MODIFIED: Conditional rendering for the action button
             switch(item.status) {
                 case 'converting':
                     actionButtonHtml = `<button class="btn btn-secondary" disabled>Converting...</button>`;
@@ -94,7 +90,7 @@ if (document.getElementById('upload-area')) {
                 case 'error':
                      actionButtonHtml = `<button class="btn btn-error" disabled>Error</button>`;
                      break;
-                default: // 'pending'
+                default:
                     actionButtonHtml = `<button class="btn btn-primary convert-single" data-id="${item.id}">Convert</button>`;
             }
 
@@ -119,7 +115,6 @@ if (document.getElementById('upload-area')) {
     fileList.addEventListener('click', (e) => {
         const target = e.target;
         const id = target.dataset.id;
-
         if (target.classList.contains('remove-file')) {
             filesToProcess = filesToProcess.filter(item => item.id !== id);
             renderFileList();
@@ -133,40 +128,11 @@ if (document.getElementById('upload-area')) {
 
     // --- Conversion & Download Logic ---
     function convertSingleFile(id) {
-        const item = filesToProcess.find(f => f.id === id);
-        if (!item || item.status !== 'pending') return;
-
-        item.status = 'converting';
-        renderFileList(); // Re-render to show "Converting..." state
-
-        // --- STUB: SIMULATED CONVERSION LOGIC ---
-        // Replace this setTimeout with your actual canvas conversion logic
-        setTimeout(() => {
-            // Simulate success
-            item.status = 'done';
-            // Simulate a smaller file size after conversion
-            const simulatedBlob = new Blob(['dummy content'], { type: 'image/png' });
-            item.convertedData = {
-                blob: simulatedBlob,
-                name: item.file.name.replace(/\.[^/.]+$/, "") + ".png",
-                size: item.file.size * 0.8 // Simulate 20% size reduction
-            };
-            renderFileList(); // Re-render to show the "Download" button
-        }, 1500);
+        // ... (Your existing conversion logic)
     }
     
     function downloadSingleFile(id) {
-        const item = filesToProcess.find(f => f.id === id);
-        if (!item || item.status !== 'done' || !item.convertedData) return;
-        
-        const url = URL.createObjectURL(item.convertedData.blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = item.convertedData.name;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        // ... (Your existing download logic)
     }
     
     clearBtn.addEventListener('click', () => {
@@ -176,11 +142,27 @@ if (document.getElementById('upload-area')) {
         updateControlsVisibility();
     });
 
-    // Main "Convert All" button
-    convertBtn.addEventListener('click', () => {
-        // Here you could implement the logic to loop through all 'pending' files
-        // and call convertSingleFile for each.
-        alert('"Convert All" logic needs to be connected to the new system.');
-    });
+    // --- START: DYNAMIC SLUG (URL HASH) LOGIC ---
+    function updateHashFromSelection() {
+        const selectedFormat = formatSelect.value;
+        window.location.hash = `image-to-${selectedFormat}`;
+    }
+
+    function updateSelectionFromHash() {
+        const hash = window.location.hash;
+        if (hash) {
+            const format = hash.replace('#image-to-', '');
+            if (formatSelect.querySelector(`option[value="${format}"]`)) {
+                formatSelect.value = format;
+            }
+        }
+    }
+
+    // Event listener to change the hash when the user selects a new format
+    formatSelect.addEventListener('change', updateHashFromSelection);
+
+    // Check the hash when the page loads to set the initial state
+    document.addEventListener('DOMContentLoaded', updateSelectionFromHash);
+    // --- END: DYNAMIC SLUG (URL HASH) LOGIC ---
 
 } // End of converter page logic wrapper
