@@ -6,10 +6,8 @@
     <title>Free Unlimited Image Converter | This Suppose To Be Free</title>
     <meta name="description" content="Convert images to JPG, PNG, WEBP, and more for free. No uploads, no limits. Your files are processed locally in your browser for 100% privacy.">
     <link rel="stylesheet" href="../style.css">
-
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2823470980745945"
      crossorigin="anonymous"></script>
-
     <script id="schema-json" type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -30,6 +28,8 @@
     <header id="navbar-placeholder"></header>
 
     <main class="main-content">
+        <div id="drag-overlay"> <p>Drop Files Anywhere!</p>
+        </div>
         <div class="container">
             <div class="tool-header">
                 <h1>Convert Images Without Limits</h1>
@@ -37,10 +37,7 @@
             </div>
 
             <div id="upload-area">
-                <div id="drag-overlay">
-                    <p>Drop Files Anywhere!</p>
-                </div>
-                <p>Drag & drop files here, or</p>
+                <p>Drag & drop files here</p>
                 <label for="file-input" class="btn btn-primary">Choose Files</label>
                 <input type="file" id="file-input" multiple hidden>
             </div>
