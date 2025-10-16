@@ -8,6 +8,7 @@ if (document.getElementById('upload-area')) {
     const fileList = document.getElementById('file-list');
     const controlsArea = document.getElementById('controls-area');
     const formatSelect = document.getElementById('format-select');
+    const convertAllBtn = document.getElementById('convert-btn'); // Renamed for clarity
     const clearBtn = document.getElementById('clear-btn');
     
     // --- State Management ---
@@ -102,7 +103,6 @@ if (document.getElementById('upload-area')) {
     
     // --- EVENT LISTENER FOR DYNAMIC BUTTONS ---
     fileList.addEventListener('click', (e) => {
-        // Find the actual button that was clicked, even if the user clicks an icon inside it
         const button = e.target.closest('button');
         if (!button) return;
 
@@ -123,48 +123,71 @@ if (document.getElementById('upload-area')) {
         renderFileList();
         updateControlsVisibility();
     });
+    
+    // --- "CONVERT ALL" BUTTON LOGIC ---
+    convertAllBtn.addEventListener('click', () => {
+        filesToProcess.forEach(item => {
+            if (item.status === 'pending') {
+                convertSingleFile(item.id);
+            }
+        });
+    });
 
-    // --- Conversion & Download Logic (Placeholders) ---
+    // --- Conversion & Download Logic ---
     function convertSingleFile(id) {
-        console.log(`Converting file with ID: ${id}`);
         const item = filesToProcess.find(f => f.id === id);
-        if (!item) return;
+        if (!item || item.status !== 'pending') return;
 
         item.status = 'converting';
         renderFileList();
         
-        // SIMULATED CONVERSION
+        // --- STUB: SIMULATED CONVERSION LOGIC ---
+        // Replace this with your actual file conversion code
         setTimeout(() => {
             item.status = 'done';
+            const simulatedBlob = new Blob(['dummy content'], { type: `image/${formatSelect.value}` });
             item.convertedData = {
-                size: item.file.size * 0.8, // Simulate 20% smaller
-                // ... add blob data here in real conversion
+                blob: simulatedBlob,
+                name: item.file.name.replace(/\.[^/.]+$/, `.${formatSelect.value}`),
+                size: item.file.size * Math.random() * 0.8 // Simulate random size reduction
             };
             renderFileList();
         }, 1500);
     }
     
     function downloadSingleFile(id) {
-        console.log(`Downloading file with ID: ${id}`);
-        alert('Download function placeholder.');
+        const item = filesToProcess.find(f => f.id === id);
+        if (!item || item.status !== 'done' || !item.convertedData) return;
+        
+        const url = URL.createObjectURL(item.convertedData.blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = item.convertedData.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
 
     // --- DYNAMIC SLUG, TITLE, and SCHEMA LOGIC ---
     function updateToolState(format) {
-        if (!format) format = 'png'; // Default
+        if (!format) format = 'webp'; // Default format
         
         // 1. Update URL Hash (Slug)
-        window.location.hash = `image-to-${format}`;
+        const newHash = `image-to-${format}`;
+        if (window.location.hash !== `#${newHash}`) {
+            window.location.hash = newHash;
+        }
         
         // 2. Update Page Title
         const upperFormat = format.toUpperCase();
         document.title = `Free Image to ${upperFormat} Converter | ThisSupposeToBeFree`;
         
-        // 3. Update H1 Tag (if it exists)
+        // 3. Update H1 Tag
         const h1 = document.querySelector('.tool-header h1');
         if (h1) h1.textContent = `Image to ${upperFormat} Converter`;
         
-        // 4. Update Schema Markup (as per project plan)
+        // 4. Update Schema Markup
         const schemaElement = document.getElementById('schema-json');
         if (schemaElement) {
             const schema = JSON.parse(schemaElement.textContent);
@@ -182,7 +205,7 @@ if (document.getElementById('upload-area')) {
     // On page load, read the hash and set the state
     function initializeToolState() {
         const hash = window.location.hash;
-        let initialFormat = 'png';
+        let initialFormat = 'webp'; // Default to WEBP
         if (hash && hash.startsWith('#image-to-')) {
             const formatFromHash = hash.replace('#image-to-', '');
             if ([...formatSelect.options].some(opt => opt.value === formatFromHash)) {
@@ -193,7 +216,10 @@ if (document.getElementById('upload-area')) {
         updateToolState(initialFormat);
     }
 
-    // Initialize the tool as soon as the script runs
-    initializeToolState();
-
-} // End of converter page logic wrapper
+    // Initialize the tool when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', initializeToolState);
+    // Also run immediately in case DOM is already loaded
+    if (document.readyState === 'complete') {
+      initializeToolState();
+    }
+}
