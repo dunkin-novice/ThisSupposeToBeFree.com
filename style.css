@@ -1,573 +1,313 @@
-/*
- * ThisSupposeToBeFree.com - Redesign Stylesheet
- * ---------------------------------------------
- * Mission: Minimal, fast, and accessible design.
- * Author: Gemini (based on user prompt)
- */
-
-/* ------------------------------ */
-/* 1. Base & Variables            */
-/* ------------------------------ */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-:root {
-  --bg-primary: #FFFDF6;
-  --bg-secondary: #FFFBEA;
-  --text-primary: #1B1B1B;
-  --text-secondary: #4A4A4A;
-  --accent-primary: #FFED4A;
-  --accent-hover: #FEEA8B;
-  --border-color: #EAEAEA;
-  --shadow-color: rgba(0, 0, 0, 0.05);
-  --success-color: #28a745;
-  --error-color: #dc3545;
-  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+/* General Body & Container Styles */
 body {
-  font-family: var(--font-main);
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: 1.6;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fcfbf7; /* A slightly warmer off-white */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures footer is at bottom on short pages */
+}
+header, .hero, main, footer, .tool-page-header {
+    width: 100%;
+    max-width: 900px; /* Increased max-width slightly for more breathing room */
+    box-sizing: border-box;
+    padding: 20px;
+    margin: 0 auto; /* Center main content areas */
 }
 
-body.loaded {
-  opacity: 1;
-}
-
-/* ------------------------------ */
-/* 2. Layout & Container          */
-/* ------------------------------ */
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-.main-content {
-  padding-top: 80px; /* Offset for fixed navbar */
-  padding-bottom: 4rem;
-}
-
-section {
-  padding: 4rem 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-section:last-of-type {
-  border-bottom: none;
-}
-
-/* FIX: Reduce padding for ad placeholder to remove gap */
-.ad-placeholder {
-    padding: 2rem 0;
-}
-
-
-/* ------------------------------ */
-/* 3. Typography & Links          */
-/* ------------------------------ */
-h1, h2, h3, h4 {
-  line-height: 1.2;
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-h1 { font-size: 2.8rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.5rem; }
-p {
-  margin-bottom: 1rem;
-  color: var(--text-secondary);
-  max-width: 65ch;
-}
-
-a {
-  color: var(--text-primary);
-  text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: var(--accent-primary);
-}
-
-/* NEW: Affiliate disclosure styling */
-.affiliate-disclosure {
+/* Header Styles */
+header {
+    background-color: #1a1a1a; /* Darker black for stronger contrast */
+    color: white;
     text-align: center;
-    font-size: 0.9rem;
-    font-style: italic;
-    max-width: 100%;
-    margin-bottom: 2rem;
+    padding: 30px 20px;
 }
+header h1 { margin: 0; font-size: 2.5rem; }
+header p { margin: 5px 0 0; color: #ccc; }
 
-/* NEW: Highlight text */
-.highlight-text {
-    font-weight: 700;
-    color: var(--accent-primary); /* Or another highlight color */
-}
-
-/* ------------------------------ */
-/* 4. Components                  */
-/* ------------------------------ */
-
-/* Buttons */
-.btn {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-align: center;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.btn-primary {
-  background-color: var(--accent-primary);
-  color: var(--text-primary);
-}
-
-.btn-primary:hover {
-  background-color: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px var(--shadow-color);
-}
-
-.btn-secondary {
-  background-color: transparent;
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-}
-
-.btn-secondary:hover {
-  background-color: var(--bg-secondary);
-  border-color: #ddd;
-}
-
-.btn-success {
-    background-color: var(--success-color);
-    color: #fff;
-}
-.btn-success:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
-}
-
-.btn:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-/* Cards */
-.card {
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 8px var(--shadow-color);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px var(--shadow-color);
-}
-
-.card h3 {
-  margin-top: 0;
-}
-
-/* NEW: Make cards wrapped in links work correctly */
-.card-link {
-    text-decoration: none;
-    color: inherit;
-}
-.card-link:hover {
-    color: inherit; /* Prevent text color change on hover */
-}
-
-
-/* Grids */
-.grid {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.grid-3 { grid-template-columns: repeat(3, 1fr); }
-.grid-2 { grid-template-columns: repeat(2, 1fr); }
-
-/* ------------------------------ */
-/* 5. Navbar                      */
-/* ------------------------------ */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(255, 253, 246, 0.85);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--border-color);
-  z-index: 1000;
-}
-
-.navbar .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 70px;
-}
-
-.nav-logo {
-  font-size: 1.25rem;
-  font-weight: 700;
-}
-.nav-logo a:hover {
-    color: var(--text-primary);
-}
-
-.nav-menu {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-}
-/* MODIFIED: Ensure nav-link a elements are styled correctly, especially for CTA */
-.nav-link a {
-  padding: 0.5rem;
-}
-.nav-link a.btn-primary { /* Specific style for the CTA button in navbar */
-    padding: 0.6rem 1.2rem; /* Match btn padding */
-    line-height: 1; /* Adjust line-height to center text in button */
-    display: inline-flex; /* Use flex to align text vertically */
-    align-items: center;
-}
-
-
-.hamburger {
-  display: none;
-  cursor: pointer;
-}
-
-.bar {
-  display: block;
-  width: 25px;
-  height: 3px;
-  margin: 5px auto;
-  background-color: var(--text-primary);
-  transition: all 0.3s ease-in-out;
-}
-
-/* ------------------------------ */
-/* 6. Footer                      */
-/* ------------------------------ */
-.footer {
-  background-color: var(--bg-secondary);
-  color: var(--text-secondary);
-  padding: 3rem 0 1.5rem; /* Adjusted bottom padding */
-  text-align: center;
-  border-top: 1px solid var(--border-color);
-}
-
-.footer-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-}
-
-.footer-tagline {
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.footer-links {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 0; /* Remove default ul margin */
-}
-
-.footer-links a {
-    color: var(--text-secondary);
-    font-weight: 400;
-}
-.footer-links a:hover {
-    color: var(--text-primary);
-}
-/* MODIFIED: Remove explicit padding-top for copyright to allow default flow */
-.footer .copyright {
-    padding-top: 0;
-    margin-top: 1rem; /* Add margin-top for spacing */
-    margin-bottom: 0; /* Remove default paragraph margin */
-}
-
-/* ------------------------------ */
-/* 7. Page-Specific Sections      */
-/* ------------------------------ */
-
-/* Hero Section (Homepage) */
+/* Hero Section (Main Landing Page) */
 .hero {
-  text-align: center;
-  padding: 6rem 0;
-}
-.hero h1 {
-  max-width: 15ch;
-  margin-left: auto;
-  margin-right: auto;
-}
-.hero .tagline {
-  font-size: 1.1rem;
-  margin-top: -0.5rem;
-  margin-bottom: 2rem;
-}
-.hero .cta-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-/* Mission Section (Homepage) */
-.mission-content {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-}
-.mission-text, .mission-icon {
-    flex: 1;
-}
-.mission-icon {
-    font-size: 6rem;
+    background-color: #fcfbf7; /* Match body for seamless look */
     text-align: center;
+    padding: 60px 20px; /* More vertical padding */
 }
-
-
-/* Shoutout Wall (Homepage) */
-#shoutouts {
-    background: var(--bg-secondary);
-    border-radius: 16px;
-    padding: 3rem 2rem;
-}
-.shoutout-card {
-    background: #fff;
-    padding: 1.5rem;
-    text-align: center;
-    max-width: 400px;
-    margin: 0 auto;
-}
-.shoutout-card h3 {
-    margin-bottom: 0.5rem;
-}
-
-
-/* About/Privacy Page */
-.page-header {
-  text-align: center;
-  padding-bottom: 2rem;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid var(--border-color);
-}
-.page-content {
-  max-width: 750px;
-  margin: 0 auto;
-}
-.page-content h2 {
-    margin-top: 2.5rem;
-}
-
-/* ------------------------------ */
-/* 8. Converter Tool Page         */
-/* ------------------------------ */
-.tool-header {
-    text-align: center;
-    padding-bottom: 3rem;
-}
-
-#upload-area {
-    border: 3px dashed var(--border-color);
-    border-radius: 12px;
-    padding: 3rem;
-    text-align: center;
-    background-color: #fff;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-#upload-area.drag-over {
-    border-color: var(--accent-primary);
-    background-color: var(--bg-secondary);
-}
-
-#drag-overlay {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(255, 237, 74, 0.8);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    font-weight: 700;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-}
-
-#drag-overlay.visible {
-    opacity: 1;
-}
-
-#upload-area p {
-    margin-bottom: 1.5rem;
-}
-
-.controls-section {
-    margin-top: 2rem;
-    padding: 2rem;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px var(--shadow-color);
-}
-
-.controls-grid {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-}
-
-#format-select, #quality-slider {
-    padding: 0.5rem;
-    border-radius: 6px;
-    border: 1px solid var(--border-color);
-}
-
-.file-list-container {
-    margin-top: 2rem;
-}
-
-#file-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    background-color: var(--bg-secondary);
-    border-radius: 8px;
-    margin-bottom: 0.75rem;
-    gap: 1rem;
-}
-.file-info {
-    flex-grow: 1;
-    word-break: break-all;
-}
-.file-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-shrink: 0;
-}
-
-.remove-file {
-    background: none;
-    border: none;
-    color: var(--error-color);
-    cursor: pointer;
-    font-size: 1.5rem;
+.hero h2 { font-size: 2.2rem; margin-bottom: 20px; line-height: 1.3; } /* Improved readability */
+.hero p { font-size: 1.1rem; max-width: 700px; margin: 0 auto 30px auto; line-height: 1.6; }
+.button {
+    display: inline-block;
+    background-color: #ffe66d; /* Your yellow accent */
+    color: #333; /* Darker text for contrast on yellow */
+    padding: 12px 28px; /* Slightly larger button */
+    text-decoration: none;
+    border-radius: 8px; /* Slightly more rounded */
     font-weight: bold;
-    line-height: 1;
-    padding: 0.25rem;
+    font-size: 1.1rem;
+    transition: background-color 0.2s ease;
+}
+.button:hover {
+    background-color: #ffda47;
+}
+.hero p.small-text { /* Specific style for the disclaimer text */
+    margin-top: 18px;
+    font-size: 0.85rem;
+    color: #777;
 }
 
-.privacy-note {
+/* Shoutout Box */
+.shoutout-box {
+    background-color: #fffde7; /* Light yellow */
+    border: 1px solid #ffc107; /* Amber */
+    border-radius: 8px;
+    padding: 20px;
+    margin: 40px auto; /* Centered with vertical margin */
     text-align: center;
-    margin-top: 3rem;
-    font-style: italic;
-    color: var(--text-secondary);
+    max-width: 800px;
+}
+.shoutout-box p { margin: 0; font-size: 1.1rem; line-height: 1.5; }
+.shoutout-box a { color: #00b7ff; text-decoration: none; font-weight: bold; }
+.shoutout-box a:hover { text-decoration: underline; }
+
+
+/* Main Content Area */
+main {
+    flex-grow: 1; /* Pushes footer to bottom */
+    background-color: #fcfbf7; /* Match body for seamless look */
+    padding-top: 40px; /* Added padding */
+}
+section { margin-bottom: 50px; } /* More space between sections */
+h3 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    text-align: center; /* Center section titles */
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #444;
 }
 
-/* ------------------------------ */
-/* 9. Responsive Design           */
-/* ------------------------------ */
+/* Request Cards (Projects Lab & The Wall) */
+.request {
+    background-color: #fff; /* White background for cards */
+    border: 1px solid #eee; /* Lighter border */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px; /* Spacing between cards */
+    line-height: 1.6;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow */
+}
+.request strong { color: #00b7ff; } /* Highlight project titles */
+.request a { color: #00b7ff; text-decoration: none; }
+.request a:hover { text-decoration: underline; }
+.status {
+    font-size: 0.85rem; /* Slightly smaller status text */
+    font-weight: bold;
+    color: #555;
+    margin-top: 5px;
+    display: inline-block; /* Helps with spacing */
+}
+#projects .request { /* Specific style for project cards */
+    text-align: center; /* Center project card content */
+    padding: 25px;
+}
+
+
+/* --- CORE TOOLS Grid --- */
+.core-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 25px; /* Spacing between cards */
+    padding: 0 20px; /* Padding for the grid itself */
+    margin-bottom: 50px;
+}
+.tool-card {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+.tool-card h4 {
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #222;
+}
+.tool-card p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+    min-height: 75px; /* Ensures consistent height for descriptions */
+    margin-bottom: 25px;
+}
+.tool-card .button {
+    width: auto;
+    display: inline-block;
+    background-color: #ffe66d;
+    color: #333;
+    padding: 10px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+.tool-card .button:hover {
+    background-color: #ffda47;
+}
+.tool-card .status-text { /* For "Coming Soon" */
+    display: block;
+    margin-top: 10px;
+    font-style: italic;
+    color: #999;
+}
+
+/* --- Converter Page Specific Styles --- */
+.tool-page-header {
+    background-color: #fcfbf7;
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+.tool-page-header h2 {
+    font-size: 2.8rem;
+    margin-bottom: 15px;
+    line-height: 1.2;
+    color: #222;
+}
+.tool-page-header p {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+}
+
+/* Drag & Drop Area */
+.drop-area {
+    border: 3px dashed #ccc;
+    border-radius: 15px;
+    padding: 60px 30px; /* Increased padding */
+    text-align: center;
+    margin: 20px auto;
+    max-width: 700px; /* Constrain width for cleaner look */
+    background-color: #fff;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+.drop-area.highlight {
+    border-color: #00b7ff; /* Highlight on drag over */
+    background-color: #e6f7ff; /* Light blue background on drag over */
+}
+.drop-area p {
+    font-size: 1.3rem; /* Larger text */
+    color: #666;
+    margin-bottom: 25px;
+}
+.drop-area .button {
+    font-size: 1.2rem;
+    padding: 15px 35px;
+}
+.privacy-note {
+    font-size: 0.95rem; /* Slightly larger and clearer */
+    color: #555;
+    margin-top: 30px;
+    text-align: center;
+}
+.privacy-note img { /* Icon for privacy note */
+    vertical-align: middle;
+    margin-right: 8px;
+    width: 20px; /* Adjust icon size */
+    height: 20px;
+}
+
+/* AdSense Placeholders */
+.adsense-placeholder {
+    width: 100%;
+    max-width: 728px; /* Standard large banner width */
+    min-height: 90px;
+    background-color: #e9e9e9;
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #888;
+    margin: 40px auto; /* Centered with vertical margin */
+    box-sizing: border-box;
+    font-size: 0.9rem;
+}
+.adsense-placeholder-box {
+    min-height: 250px;
+    max-width: 300px;
+}
+
+
+/* Footer Styles */
+footer {
+    text-align: center; /* Center footer content */
+    padding: 40px 20px; /* More padding */
+    font-size: 0.95rem; /* Slightly larger text */
+    color: #777;
+    border-top: 1px solid #eee; /* Subtle separator */
+    margin-top: 60px; /* Space above footer */
+}
+footer a { color: #00b7ff; text-decoration: none; margin: 0 10px; }
+footer a:hover { text-decoration: underline; }
+footer .tagline { /* Style for "Building the free web..." */
+    display: block;
+    margin-bottom: 25px;
+    font-style: italic;
+    color: #666;
+    font-size: 1.1rem;
+}
+footer .copyright {
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: #999;
+}
+
+/* Support Section ("Help Keep The Internet Free") */
+.support-section {
+    text-align: center;
+    padding: 60px 20px;
+    margin-top: 60px; /* More space above it */
+    background-color: #f8f8f8; /* Slight background for distinction */
+}
+.support-section h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    border-bottom: none; /* Remove border for this H3 */
+}
+.support-section p {
+    font-size: 1.1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    line-height: 1.6;
+}
+
+
+/* Media Queries for Responsiveness */
 @media (max-width: 768px) {
-    h1 { font-size: 2.2rem; }
-    h2 { font-size: 1.8rem; }
-
-    /* Mobile Menu */
-    .nav-menu {
-        position: fixed;
-        left: -100%;
-        top: 70px;
-        flex-direction: column;
-        background-color: var(--bg-primary);
-        width: 100%;
-        text-align: center;
-        transition: 0.3s;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-    .nav-menu.active {
-        left: 0;
-    }
-    .nav-link {
-        padding: 1.5rem 0;
-        border-bottom: 1px solid var(--border-color);
-    }
-    .hamburger {
-        display: block;
-    }
-    .hamburger.active .bar:nth-child(2) { opacity: 0; }
-    .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-    /* Grids */
-    .grid-3, .grid-2 {
-        grid-template-columns: 1fr;
-    }
-
-    /* Hero */
-    .hero { padding: 4rem 0; }
-    .hero .cta-buttons { flex-direction: column; }
-    
-    /* Mission */
-    .mission-content { flex-direction: column; }
-
-    /* Controls */
-    .controls-grid {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .controls-grid > div {
-        width: 100%;
-    }
-    
-    /* File list */
-    #file-list li {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .file-actions {
-        width: 100%;
-        justify-content: flex-end;
-        margin-top: 0.5rem;
-    }
+    header h1 { font-size: 2rem; }
+    .hero h2 { font-size: 1.6rem; }
+    .hero p { font-size: 1rem; }
+    .button { padding: 10px 20px; font-size: 1rem; }
+    .tool-card { padding: 20px; }
+    .tool-card p { min-height: unset; } /* Remove min-height on mobile for flexibility */
+    .tool-page-header h2 { font-size: 2rem; }
+    .tool-page-header p { font-size: 1rem; }
+    .drop-area { padding: 40px 20px; }
+    .drop-area p { font-size: 1.1rem; }
+    .privacy-note { font-size: 0.85rem; }
+    .adsense-placeholder { margin: 25px auto; min-height: 70px; }
+    .adsense-placeholder-box { min-height: 200px; }
+    footer { padding: 30px 20px; }
+    footer a { margin: 0 5px; font-size: 0.85rem; }
+    footer .tagline { font-size: 1rem; }
 }
