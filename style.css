@@ -70,7 +70,6 @@ section:last-of-type {
   border-bottom: none;
 }
 
-/* FIX: Reduce padding for ad placeholder to remove gap */
 .ad-placeholder {
     padding: 2rem 0;
 }
@@ -105,7 +104,6 @@ a:hover {
   color: var(--accent-primary);
 }
 
-/* NEW: Affiliate disclosure styling */
 .affiliate-disclosure {
     text-align: center;
     font-size: 0.9rem;
@@ -114,10 +112,9 @@ a:hover {
     margin-bottom: 2rem;
 }
 
-/* NEW: Highlight text */
 .highlight-text {
     font-weight: 700;
-    color: var(--accent-primary); /* Or another highlight color */
+    color: var(--text-primary);
 }
 
 /* ------------------------------ */
@@ -196,13 +193,12 @@ a:hover {
   margin-top: 0;
 }
 
-/* NEW: Make cards wrapped in links work correctly */
 .card-link {
     text-decoration: none;
     color: inherit;
 }
 .card-link:hover {
-    color: inherit; /* Prevent text color change on hover */
+    color: inherit;
 }
 
 
@@ -247,16 +243,17 @@ a:hover {
 .nav-menu {
   list-style: none;
   display: flex;
+  align-items: center;
   gap: 1.5rem;
 }
-/* MODIFIED: Ensure nav-link a elements are styled correctly, especially for CTA */
+
 .nav-link a {
   padding: 0.5rem;
 }
-.nav-link a.btn-primary { /* Specific style for the CTA button in navbar */
-    padding: 0.6rem 1.2rem; /* Match btn padding */
-    line-height: 1; /* Adjust line-height to center text in button */
-    display: inline-flex; /* Use flex to align text vertically */
+.nav-link a.btn-primary {
+    padding: 0.6rem 1.2rem;
+    line-height: 1;
+    display: inline-flex;
     align-items: center;
 }
 
@@ -281,21 +278,25 @@ a:hover {
 .footer {
   background-color: var(--bg-secondary);
   color: var(--text-secondary);
-  padding: 3rem 0 1.5rem; /* Adjusted bottom padding */
+  padding: 3rem 0;
   text-align: center;
   border-top: 1px solid var(--border-color);
 }
 
+/* MODIFIED: Explicitly center all content and text */
 .footer-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
+  width: 100%;
+  text-align: center;
 }
 
 .footer-tagline {
   font-weight: 600;
   color: var(--text-primary);
+  margin-bottom: 0;
 }
 
 .footer-links {
@@ -304,7 +305,8 @@ a:hover {
   gap: 1.5rem;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 0; /* Remove default ul margin */
+  margin: 0;
+  padding: 0;
 }
 
 .footer-links a {
@@ -314,11 +316,11 @@ a:hover {
 .footer-links a:hover {
     color: var(--text-primary);
 }
-/* MODIFIED: Remove explicit padding-top for copyright to allow default flow */
+
 .footer .copyright {
-    padding-top: 0;
-    margin-top: 1rem; /* Add margin-top for spacing */
-    margin-bottom: 0; /* Remove default paragraph margin */
+    margin: 0;
+    padding-top: 1rem;
+    font-size: 0.9rem;
 }
 
 /* ------------------------------ */
@@ -529,8 +531,12 @@ a:hover {
         left: 0;
     }
     .nav-link {
-        padding: 1.5rem 0;
-        border-bottom: 1px solid var(--border-color);
+        padding: 1rem 0;
+        width: 100%;
+    }
+    .nav-link a.btn {
+        margin: 0.5rem auto;
+        display: inline-block;
     }
     .hamburger {
         display: block;
