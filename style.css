@@ -283,7 +283,6 @@ a:hover {
   border-top: 1px solid var(--border-color);
 }
 
-/* MODIFIED: Explicitly center all content and text */
 .footer-content {
   display: flex;
   flex-direction: column;
@@ -403,13 +402,11 @@ a:hover {
     text-align: center;
     padding-bottom: 3rem;
 }
-/* MODIFIED: Center the subtitle paragraph */
 .tool-header p {
     margin-left: auto;
     margin-right: auto;
 }
 
-/* MODIFIED: Styles for the new upload box layout */
 #upload-area {
     border: 3px dashed var(--border-color);
     border-radius: 12px;
@@ -428,13 +425,12 @@ a:hover {
     margin-bottom: 1.5rem;
 }
 
-/* MODIFIED: Make drag overlay a fixed, full-screen element */
 #drag-overlay {
-    position: fixed; /* Changed from absolute */
+    position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
     background-color: rgba(255, 237, 74, 0.85);
-    z-index: 9999; /* Ensure it's on top of everything */
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -447,6 +443,78 @@ a:hover {
 
 #drag-overlay.visible {
     opacity: 1;
+}
+
+.controls-section {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.controls-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+#format-select, #quality-slider {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.file-list-container {
+    margin-top: 2rem;
+}
+
+/* START: MODIFIED/FIXED styles for the file list */
+#file-list {
+    list-style: none; /* Removes the bullet points */
+    padding: 0; /* Removes default browser indentation */
+}
+
+#file-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    gap: 1rem;
+}
+.file-info {
+    flex-grow: 1; /* Pushes action buttons to the right */
+    word-break: break-all;
+}
+.file-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0; /* Prevents buttons from shrinking */
+}
+
+.remove-file {
+    background: none;
+    border: none;
+    color: var(--error-color);
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1;
+    padding: 0.25rem;
+}
+/* END: MODIFIED/FIXED styles for the file list */
+
+.privacy-note {
+    text-align: center;
+    margin-top: 3rem;
+    font-style: italic;
+    color: var(--text-secondary);
 }
 
 /* ------------------------------ */
@@ -466,7 +534,7 @@ a:hover {
         width: 100%;
         text-align: center;
         transition: 0.3s;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        box-show: 0 10px 20px rgba(0,0,0,0.1);
     }
     .nav-menu.active {
         left: 0;
@@ -507,7 +575,7 @@ a:hover {
         width: 100%;
     }
     
-    /* File list */
+    /* MODIFIED: Responsive styles for file list */
     #file-list li {
         flex-direction: column;
         align-items: flex-start;
